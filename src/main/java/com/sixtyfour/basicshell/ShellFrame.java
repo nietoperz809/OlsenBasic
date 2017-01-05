@@ -27,6 +27,12 @@ public class ShellFrame
     private JButton stopButton;
     private JButton clsButton;
     private Runner runner = null;
+    private int[] lastStrLen = new int[2]; // Length of last output chunk
+
+    int getLastOutSize()
+    {
+        return lastStrLen[0];
+    }
 
     private ShellFrame ()
     {
@@ -275,6 +281,9 @@ public class ShellFrame
         try
         {
             toTextArea.put(outText);
+            lastStrLen[0] = lastStrLen[1];
+            lastStrLen[1] = outText.length();
+            //System.out.println(lastStrLen);
         }
         catch (InterruptedException e)
         {

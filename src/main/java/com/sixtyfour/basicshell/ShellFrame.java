@@ -119,10 +119,15 @@ public class ShellFrame
                 "- cls<br>- list<br>- run<br>- new<br>" +
                 "- save[file]<br>- load[file]<br>- dir<br>" +
                 "or edit your BASIC code here</html>");
+        mainTextArea.setCaretColor(Color.white);
         //mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
-        DefaultCaret caret = (DefaultCaret) mainTextArea.getCaret();
-        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
+        BlockCaret mc = new BlockCaret();
+        mainTextArea.setCaret(mc);
+        //DefaultCaret caret = (DefaultCaret) mainTextArea.getCaret();
+        mc.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+
         panel1.add(scrollPane1, BorderLayout.CENTER);
         panel1.setPreferredSize(new Dimension(600, 600));
     }

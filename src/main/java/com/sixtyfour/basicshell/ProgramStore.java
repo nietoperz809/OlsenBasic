@@ -84,7 +84,7 @@ public class ProgramStore
         return sb.toString();
     }
 
-    public void insert (String s)
+    public boolean insert (String s)
     {
         try // Must begin with number
         {
@@ -101,8 +101,10 @@ public class ProgramStore
         }
         catch (NumberFormatException ex)
         {
-            System.err.println("oops");
+            System.err.println(ex);
+            return false;
         }
+        return true;
     }
 
     public void clear()

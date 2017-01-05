@@ -9,6 +9,7 @@ import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -103,6 +104,10 @@ public class ShellFrame
         mainTextArea.setDoubleBuffered(true);
         mainTextArea.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         mainTextArea.setForeground(Color.YELLOW);
+        mainTextArea.setToolTipText("<html>Typ one of:<br>" +
+                "- cls<br>- list<br>- run<br>- new<br>" +
+                "- save[file]<br>- load[file]<br>- dir<br>" +
+                "or edit your BASIC code here</html>");
         //mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
         DefaultCaret caret = (DefaultCaret) mainTextArea.getCaret();
@@ -170,10 +175,23 @@ public class ShellFrame
         JFrame frame = new JFrame("ShellFrame");
         ShellFrame shellFrame = new ShellFrame();
         frame.setContentPane(shellFrame.panel1);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+        shellFrame.putString("BASIC V2 Ready.\n");
         shellFrame.commandLoop();
+    }
+
+    private void dir()
+    {
+        File[] filesInFolder = new File(".").listFiles();
+        for (final File fileEntry : filesInFolder)
+        {
+            if (fileEntry.isFile())
+            {
+                putString(fileEntry.getName()+ " -- " + fileEntry.length()+'\n');
+            }
+        }
     }
 
     /**
@@ -204,6 +222,10 @@ public class ShellFrame
                 runner = new Runner(store.toArray(), this);
                 runner.synchronousStart();
             }
+            else if (s.equals("dir"))
+            {
+                dir();
+            }
             else if (split[0].toLowerCase().equals("save"))
             {
                 String msg = store.save(split[1]);
@@ -216,7 +238,8 @@ public class ShellFrame
             }
             else
             {
-                store.insert(s);
+                if (!store.insert(s))
+                    putString("?Syntax Error.\n");
             }
         }
     }
@@ -245,13 +268,13 @@ public class ShellFrame
 
     /**
      * Send text to text area. Blocks thd caller if buffer is full
-     * @param s
+     * @param outText
      */
-    public void putString (String s)
+    public void putString (String outText)
     {
         try
         {
-            toTextArea.put(s);
+            toTextArea.put(outText);
         }
         catch (InterruptedException e)
         {

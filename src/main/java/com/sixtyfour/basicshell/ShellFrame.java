@@ -29,7 +29,12 @@ public class ShellFrame
     private Runner runner = null;
     private int[] lastStrLen = new int[2]; // Length of last output chunk
 
-    int getLastOutSize()
+    /**
+     * Returns length of the output string before the last one
+     * Needed by some input statements
+     * @return Lengh of penultimate output
+     */
+    int getPenultimateOutputSize ()
     {
         return lastStrLen[0];
     }

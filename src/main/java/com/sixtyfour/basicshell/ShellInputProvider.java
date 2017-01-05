@@ -25,9 +25,7 @@ public class ShellInputProvider implements InputProvider
     @Override
     public String readString ()
     {
-        int l = shellFrame.getLastOutSize();
-        String s = shellFrame.getString();
-        s = s.substring(l+1);
-        return s;
+        int l = shellFrame.getPenultimateOutputSize();
+        return shellFrame.getString().substring(l+1);
     }
 }

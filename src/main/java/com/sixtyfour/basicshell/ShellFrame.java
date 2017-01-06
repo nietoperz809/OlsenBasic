@@ -13,6 +13,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -187,15 +188,7 @@ public class ShellFrame
     public static void main (String[] unused)
     {
         JFrame frame = new JFrame("Commodore BASIC V2");
-        try
-        {
-            final BufferedImage img = ImageIO.read(new File("commodore.png"));
-            frame.setIconImage(img);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        frame.setIconImage(ResourceLoader.getIcon());
         ShellFrame shellFrame = new ShellFrame();
         frame.setContentPane(shellFrame.panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);

@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact name="OlsenBasic:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/OlsenBasic_jar</output-path>
+    <root id="root">
+      <element id="archive" name="OlsenBasic.jar">
+        <element id="module-output" name="OlsenBasic" />
+      </element>
+      <element id="dir-copy" path="$PROJECT_DIR$/ressourcs" />
+    </root>
+  </artifact>
+</component>

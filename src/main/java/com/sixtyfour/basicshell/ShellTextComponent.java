@@ -11,6 +11,8 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 import static java.awt.Toolkit.getDefaultToolkit;
@@ -69,6 +71,7 @@ class ShellTextComponent extends JTextArea
         BlockCaret mc = new BlockCaret();
         mc.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         setCaret(mc);
+        setFont (ResourceLoader.getFont());
     }
 
     @Override

@@ -20,11 +20,14 @@ public class Runner implements Runnable
     }
 
     /**
-     * Start BASIC task and blocks starter until task ends
+     * Start BASIC task
+     * @param synchronous if true the caller is blocked
      */
-    public void synchronousStart ()
+    public void start (boolean synchronous)
     {
         Future f = ShellFrame.executor.submit (this);
+        if (!synchronous)
+            return;
         try
         {
             f.get();

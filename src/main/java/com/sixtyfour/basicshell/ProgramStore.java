@@ -14,55 +14,13 @@ import java.util.stream.Stream;
  */
 public class ProgramStore
 {
+    public static final String ERROR = "ERROR.\n";
+    public static final String OK = "READY.\n";
     private final TreeSet<String> store = new TreeSet<>(new LineComparator());
-    private static final String ERROR = "ERROR.\n";
-    private static final String OK = "READY.\n";
 
-    class LineComparator implements Comparator<String>
+    public String[] toArray ()
     {
-        @Override
-        public int compare(String s1, String s2)
-        {
-            return getLineNumber(s1)-getLineNumber(s2);
-        }
-    }
-
-    public ProgramStore ()
-    {
-    }
-
-    private int getLineNumber(String in) throws NumberFormatException
-    {
-        StringBuilder buff = new StringBuilder();
-        for (int s=0; s<in.length(); s++)
-        {
-            char c = in.charAt(s);
-            if (!Character.isDigit(c))
-                break;
-            buff.append(c);
-        }
-        return Integer.parseInt(buff.toString());
-    }
-
-    private void addLine (String s)
-    {
-        removeLine(getLineNumber(s));
-        store.add(s);
-    }
-
-    private void removeLine (int num)
-    {
-        TreeSet<String> clone = (TreeSet<String>)store.clone();  // avoid java.util.ConcurrentModificationException
-        for (String s : clone)
-        {
-            if (getLineNumber(s) == num)
-                store.remove(s);
-        }
-    }
-
-    public String[] toArray()
-    {
-        TreeSet<String> clone = (TreeSet<String>)store.clone();  // avoid java.util.ConcurrentModificationException
+        TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
         String[] arr = new String[clone.size()];
         int n = 0;
         for (String s : clone)
@@ -72,42 +30,56 @@ public class ProgramStore
         return arr;
     }
 
-    @Override
-    public String toString ()
+    public void insert (String codeLine) throws NumberFormatException
     {
-        TreeSet<String> clone = (TreeSet<String>)store.clone();  // avoid java.util.ConcurrentModificationException
-        StringBuilder sb = new StringBuilder();
-        for (String s : clone)
+        if (codeLine.trim().isEmpty())
+            return;
+        int num = getLineNumber(codeLine);
+        try
         {
-            sb.append(s).append('\n');
-        }
-        return sb.toString();
-    }
-
-    public boolean insert (String s)
-    {
-        try // Must begin with number
-        {
-            int num = getLineNumber(s);
-            try
-            {
-                int num2 = Integer.parseInt(s); // Number only?
-                removeLine(num);
-            }
-            catch (NumberFormatException ex)
-            {
-                addLine(s);
-            }
+            int num2 = Integer.parseInt(codeLine); // Number only?
+            removeLine(num);
         }
         catch (NumberFormatException ex)
         {
-            System.err.println(ex);
-            return false;
+            addLine(codeLine);
         }
-        return true;
     }
 
-    public void clear()
+    private int getLineNumber (String in) throws NumberFormatException
+    {
+        StringBuilder buff = new StringBuilder();
+        for (int s = 0; s < in.length(); s++)
+        {
+            char c = in.charAt(s);
+            if (!Character.isDigit(c))
+            {
+                break;
+            }
+            buff.append(c);
+        }
+        return Integer.parseInt(buff.toString());
+    }
+
+    private void removeLine (int num)
+    {
+        TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
+        for (String s : clone)
+        {
+            if (getLineNumber(s) == num)
+            {
+                store.remove(s);
+            }
+        }
+    }
+
+    private void addLine (String s)
+    {
+        removeLine(getLineNumber(s));
+        store.add(s);
+    }
+
+    public void clear ()
     {
         store.clear();
     }
@@ -167,6 +139,27 @@ public class ProgramStore
                 ok = false;
             }
         }
-        return ok? OK : ERROR;
+        return ok ? OK : ERROR;
+    }
+
+    @Override
+    public String toString ()
+    {
+        TreeSet<String> clone = (TreeSet<String>) store.clone();  // avoid java.util.ConcurrentModificationException
+        StringBuilder sb = new StringBuilder();
+        for (String s : clone)
+        {
+            sb.append(s).append('\n');
+        }
+        return sb.toString();
+    }
+
+    class LineComparator implements Comparator<String>
+    {
+        @Override
+        public int compare (String s1, String s2)
+        {
+            return getLineNumber(s1) - getLineNumber(s2);
+        }
     }
 }

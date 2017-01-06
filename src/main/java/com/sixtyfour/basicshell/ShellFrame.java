@@ -2,14 +2,17 @@ package com.sixtyfour.basicshell;
 
 import com.sixtyfour.Basic;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.DefaultCaret;
 import java.awt.*;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,7 +29,9 @@ public class ShellFrame
     private JPanel panel1;
     private JButton stopButton;
     private JButton clsButton;
+    private JButton runButton;
     private Runner runner = null;
+    private ProgramStore store = new ProgramStore();
     private int[] lastStrLen = new int[2]; // Length of last output chunk
     private int rowNum;  // line number set by caret listener
     private int colNum;   // column number "
@@ -38,7 +43,7 @@ public class ShellFrame
      * - register event handlers
      * - start text area writer thread
      */
-    private ShellFrame()
+    private ShellFrame ()
     {
         setupUI();
         mainTextArea.addCaretListener((CaretEvent e) ->
@@ -49,7 +54,7 @@ public class ShellFrame
                 int caretpos = editArea.getCaretPosition();
                 rowNum = editArea.getLineOfOffset(caretpos);
                 colNum = caretpos - editArea.getLineStartOffset(rowNum);
-                caretLabel.setText("  "+rowNum+" - "+colNum);
+                caretLabel.setText("  " + rowNum + " - " + colNum);
             }
             catch (Exception ex)
             {
@@ -100,6 +105,7 @@ public class ShellFrame
                 i.runStop();
             }
         });
+        runButton.addActionListener( e -> run(false));
         clsButton.addActionListener(e -> cls());
     }
 
@@ -118,33 +124,24 @@ public class ShellFrame
         stopButton = new JButton();
         stopButton.setText("Stop");
         stopButton.setPreferredSize(new Dimension(82, 30));
-        stopButton.setText("Stop");
+        stopButton.setText("STOP");
         panel2.add(stopButton);
         clsButton = new JButton();
         clsButton.setPreferredSize(new Dimension(82, 30));
-        clsButton.setText("Cls");
+        clsButton.setText("CLS");
         panel2.add(clsButton);
+        runButton = new JButton();
+        runButton.setPreferredSize(new Dimension(82, 30));
+        runButton.setText("RUN");
+        panel2.add(runButton);
         caretLabel = new JLabel();
         caretLabel.setPreferredSize(new Dimension(82, 30));
         caretLabel.setForeground(Color.pink);
         panel2.add(caretLabel);
-        mainTextArea = new JTextArea();
-        mainTextArea.setBackground(new Color(-12679937));
-        mainTextArea.setDoubleBuffered(true);
-        mainTextArea.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
-        mainTextArea.setForeground(Color.YELLOW);
-        mainTextArea.setToolTipText("<html>Type one of:<br>" +
-                "- cls<br>- list<br>- run<br>- new<br>" +
-                "- save[file]<br>- load[file]<br>- dir<br>" +
-                "or edit your BASIC code here</html>");
+        mainTextArea = new ShellTextComponent(this);
         mainTextArea.setCaretColor(Color.white);
         //mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
-
-        BlockCaret mc = new BlockCaret();
-        mainTextArea.setCaret(mc);
-        //DefaultCaret caret = (DefaultCaret) mainTextArea.getCaret();
-        mc.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
 
         panel1.add(scrollPane1, BorderLayout.CENTER);
         panel1.setPreferredSize(new Dimension(600, 600));
@@ -178,18 +175,33 @@ public class ShellFrame
         mainTextArea.setText("");
     }
 
+    private void run (boolean sync)
+    {
+        runner = new Runner(store.toArray(), this);
+        runner.start (sync);
+    }
+
     /**
      * Main thread entry point
      */
     public static void main (String[] unused)
     {
-        JFrame frame = new JFrame("ShellFrame");
+        JFrame frame = new JFrame("Commodore BASIC V2");
+        try
+        {
+            final BufferedImage img = ImageIO.read(new File("commodore.png"));
+            frame.setIconImage(img);
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         ShellFrame shellFrame = new ShellFrame();
         frame.setContentPane(shellFrame.panel1);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        shellFrame.putString("BASIC V2 Ready.\n");
+        shellFrame.putString("Commodore BASIC V2\n" + ProgramStore.OK);
         shellFrame.commandLoop();
     }
 
@@ -218,7 +230,6 @@ public class ShellFrame
      */
     private void commandLoop ()
     {
-        ProgramStore store = new ProgramStore();
         while (true)
         {
             String s = getString();
@@ -238,8 +249,7 @@ public class ShellFrame
             }
             else if (s.equals("run"))
             {
-                runner = new Runner(store.toArray(), this);
-                runner.synchronousStart();
+                run(true);
             }
             else if (s.equals("dir"))
             {
@@ -257,9 +267,13 @@ public class ShellFrame
             }
             else
             {
-                if (!store.insert(s))
+                try
                 {
-                    putString("?Syntax Error.\n");
+                    store.insert(s);
+                }
+                catch (NumberFormatException unused)
+                {
+                    putString(ProgramStore.ERROR);
                 }
             }
         }
@@ -293,6 +307,11 @@ public class ShellFrame
                 putString(fileEntry.getName() + " -- " + fileEntry.length() + '\n');
             }
         }
+    }
+
+    public ProgramStore getStore ()
+    {
+        return store;
     }
 
     /**

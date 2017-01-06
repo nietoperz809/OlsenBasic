@@ -3,9 +3,9 @@ package com.sixtyfour.basicshell;
 import com.sixtyfour.Basic;
 
 import javax.swing.*;
+import javax.swing.event.CaretEvent;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
-import javax.swing.text.Utilities;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -28,20 +28,30 @@ public class ShellFrame
     private JButton clsButton;
     private Runner runner = null;
     private int[] lastStrLen = new int[2]; // Length of last output chunk
+    private int lineNum;  // line number set by caret listener
 
     /**
-     * Returns length of the output string before the last one
-     * Needed by some input statements
-     * @return Lengh of penultimate output
+     * Constructor:
+     * - initiaize UI
+     * - register event handlers
+     * - start text area writer thread
      */
-    int getPenultimateOutputSize ()
-    {
-        return lastStrLen[0];
-    }
-
     private ShellFrame ()
     {
         setupUI();
+        mainTextArea.addCaretListener((CaretEvent e) ->
+        {
+            JTextArea editArea = (JTextArea) e.getSource();
+            try
+            {
+                int caretpos = editArea.getCaretPosition();
+                lineNum = editArea.getLineOfOffset(caretpos);
+            }
+            catch (Exception ex)
+            {
+                ex.printStackTrace();
+            }
+        });
         mainTextArea.addKeyListener(new KeyAdapter()
         {
             @Override
@@ -49,10 +59,10 @@ public class ShellFrame
             {
                 if (e.getKeyChar() == '\n')
                 {
-                    int lp = getLinePos();
+                    //System.out.println(lineNum);
                     try
                     {
-                        fromTextArea.put(getLineAt(lp - 2));
+                        fromTextArea.put(getLineAt(lineNum - 1));
                     }
                     catch (InterruptedException e1)
                     {
@@ -133,31 +143,8 @@ public class ShellFrame
     }
 
     /**
-     * Get number of line where cursor is
-     *
-     * @return the line number
-     */
-    private int getLinePos ()
-    {
-        int caretPos = mainTextArea.getCaretPosition();
-        int rowNum = 0;
-        for (int offset = caretPos; offset > 0; )
-        {
-            try
-            {
-                offset = Utilities.getRowStart(mainTextArea, offset) - 1;
-            }
-            catch (BadLocationException e)
-            {
-                e.printStackTrace();
-            }
-            rowNum++;
-        }
-        return rowNum;
-    }
-
-    /**
      * Return line at specified position
+     *
      * @param linenum Line number
      * @return Line as String
      */
@@ -174,6 +161,30 @@ public class ShellFrame
             return ("");
         }
     }
+
+//    /**
+//     * Get number of line where cursor is
+//     *
+//     * @return the line number
+//     */
+//    private int getLinePos ()
+//    {
+//        int caretPos = mainTextArea.getCaretPosition();
+//        int rowNum = 0;
+//        for (int offset = caretPos; offset > 0; )
+//        {
+//            try
+//            {
+//                offset = Utilities.getRowStart(mainTextArea, offset) - 1;
+//            }
+//            catch (BadLocationException e)
+//            {
+//                e.printStackTrace();
+//            }
+//            rowNum++;
+//        }
+//        return rowNum;
+//    }
 
     /**
      * Wipe text area
@@ -198,15 +209,23 @@ public class ShellFrame
         shellFrame.commandLoop();
     }
 
-    private void dir()
+    /**
+     * Send text to text area. Blocks thd caller if buffer is full
+     *
+     * @param outText
+     */
+    public void putString (String outText)
     {
-        File[] filesInFolder = new File(".").listFiles();
-        for (final File fileEntry : filesInFolder)
+        try
         {
-            if (fileEntry.isFile())
-            {
-                putString(fileEntry.getName()+ " -- " + fileEntry.length()+'\n');
-            }
+            toTextArea.put(outText);
+            lastStrLen[0] = lastStrLen[1];
+            lastStrLen[1] = outText.length();
+            //System.out.println(lastStrLen);
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -255,13 +274,16 @@ public class ShellFrame
             else
             {
                 if (!store.insert(s))
+                {
                     putString("?Syntax Error.\n");
+                }
             }
         }
     }
 
     /**
      * Get input from text area. Blocks the caller if there is none
+     *
      * @return
      */
     public String getString ()
@@ -277,28 +299,32 @@ public class ShellFrame
         }
     }
 
-    public boolean peek()
+    private void dir ()
     {
-        return fromTextArea.peek() != null;
+        File[] filesInFolder = new File(".").listFiles();
+        for (final File fileEntry : filesInFolder)
+        {
+            if (fileEntry.isFile())
+            {
+                putString(fileEntry.getName() + " -- " + fileEntry.length() + '\n');
+            }
+        }
     }
 
     /**
-     * Send text to text area. Blocks thd caller if buffer is full
-     * @param outText
+     * Returns length of the output string before the last one
+     * Needed by some input statements
+     *
+     * @return Lengh of penultimate output
      */
-    public void putString (String outText)
+    int getPenultimateOutputSize ()
     {
-        try
-        {
-            toTextArea.put(outText);
-            lastStrLen[0] = lastStrLen[1];
-            lastStrLen[1] = outText.length();
-            //System.out.println(lastStrLen);
-        }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        return lastStrLen[0];
+    }
+
+    public boolean peek ()
+    {
+        return fromTextArea.peek() != null;
     }
 }
 

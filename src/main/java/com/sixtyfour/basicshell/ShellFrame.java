@@ -115,7 +115,7 @@ public class ShellFrame
         mainTextArea.setDoubleBuffered(true);
         mainTextArea.setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
         mainTextArea.setForeground(Color.YELLOW);
-        mainTextArea.setToolTipText("<html>Typ one of:<br>" +
+        mainTextArea.setToolTipText("<html>Type one of:<br>" +
                 "- cls<br>- list<br>- run<br>- new<br>" +
                 "- save[file]<br>- load[file]<br>- dir<br>" +
                 "or edit your BASIC code here</html>");

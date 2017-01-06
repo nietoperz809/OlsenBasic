@@ -1,70 +1,66 @@
 package com.sixtyfour.basicshell;
 
+import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultCaret;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+
+/**
+ * Code based on Groovy text editor
+ * ... groovy-console/src/main/groovy/groovy/ui/text/TextEditor.java
+ */
 
 public class BlockCaret extends DefaultCaret
 {
-    private static final long serialVersionUID = 1L;
-
-    @Override
-    protected synchronized void damage (Rectangle r)
+    public BlockCaret ()
     {
-        if (r == null)
-        {
-            return;
-        }
-
-        // give values to x,y,width,height (inherited from java.awt.Rectangle)
-        x = r.x;
-        y = r.y;
-        height = r.height;
-        // A value for width was probably set by paint(), which we leave alone.
-        // But the first call to damage() precedes the first call to paint(), so
-        // in this case we must be prepared to set a valid width, or else paint()
-        // will receive a bogus clip area and caret will not get drawn properly.
-        if (width <= 0)
-        {
-            width = getComponent().getWidth();
-        }
-
-        repaint(); // calls getComponent().repaint(x, y, width, height)
+        setBlinkRate(500);
     }
 
-    @Override
+    protected synchronized void damage (Rectangle r)
+    {
+        if (r != null)
+        {
+            JTextComponent component = getComponent();
+            x = r.x;
+            y = r.y;
+            Font font = component.getFont();
+            width = component.getFontMetrics(font).charWidth('w');
+            height = r.height;
+            repaint();
+        }
+    }
+
+    public void mouseClicked (MouseEvent e)
+    {
+        JComponent c = (JComponent) e.getComponent();
+        c.repaint();
+    }
+
     public void paint (Graphics g)
     {
-        JTextComponent comp = getComponent();
-        if (comp == null)
-        {
-            return;
-        }
-
-        int dot = getDot();
-        Rectangle r;
-        try
-        {
-            r = comp.modelToView(dot);
-            if (r == null)
-            {
-                return;
-            }
-        }
-        catch (BadLocationException e)
-        {
-            return;
-        }
-
-        g.setColor(comp.getCaretColor());
-        g.setXORMode(comp.getBackground()); // do this to draw in XOR mode
-
-        int diam = r.height;
         if (isVisible())
         {
-            g.fillRect(r.x, r.y, width, r.height); //, 12, 12);
+            try
+            {
+                JTextComponent component = getComponent();
+                Rectangle r = component.getUI().modelToView(component, getDot());
+                Color c = g.getColor();
+                g.setColor(component.getBackground());
+                g.setXORMode(component.getCaretColor());
+                r.setBounds(r.x, r.y,
+                        g.getFontMetrics().charWidth('w'),
+                        g.getFontMetrics().getHeight());
+                g.fillRect(r.x, r.y, r.width, r.height);
+                g.setPaintMode();
+                g.setColor(c);
+            }
+            catch (BadLocationException e)
+            {
+                e.printStackTrace();
+            }
         }
-        width = diam / 2 + 2;
     }
 }

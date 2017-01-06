@@ -28,15 +28,17 @@ public class ShellFrame
     private JButton clsButton;
     private Runner runner = null;
     private int[] lastStrLen = new int[2]; // Length of last output chunk
-    private int lineNum;  // line number set by caret listener
+    private int rowNum;  // line number set by caret listener
+    private int colNum;   // column number "
+    private JLabel caretLabel;
 
     /**
      * Constructor:
-     * - initiaize UI
+     * - initialize UI
      * - register event handlers
      * - start text area writer thread
      */
-    private ShellFrame ()
+    private ShellFrame()
     {
         setupUI();
         mainTextArea.addCaretListener((CaretEvent e) ->
@@ -45,7 +47,9 @@ public class ShellFrame
             try
             {
                 int caretpos = editArea.getCaretPosition();
-                lineNum = editArea.getLineOfOffset(caretpos);
+                rowNum = editArea.getLineOfOffset(caretpos);
+                colNum = caretpos - editArea.getLineStartOffset(rowNum);
+                caretLabel.setText("  "+rowNum+" - "+colNum);
             }
             catch (Exception ex)
             {
@@ -59,10 +63,10 @@ public class ShellFrame
             {
                 if (e.getKeyChar() == '\n')
                 {
-                    //System.out.println(lineNum);
+                    //System.out.println(rowNum);
                     try
                     {
-                        fromTextArea.put(getLineAt(lineNum - 1));
+                        fromTextArea.put(getLineAt(rowNum - 1));
                     }
                     catch (InterruptedException e1)
                     {
@@ -120,6 +124,10 @@ public class ShellFrame
         clsButton.setPreferredSize(new Dimension(82, 30));
         clsButton.setText("Cls");
         panel2.add(clsButton);
+        caretLabel = new JLabel();
+        caretLabel.setPreferredSize(new Dimension(82, 30));
+        caretLabel.setForeground(Color.pink);
+        panel2.add(caretLabel);
         mainTextArea = new JTextArea();
         mainTextArea.setBackground(new Color(-12679937));
         mainTextArea.setDoubleBuffered(true);
@@ -161,30 +169,6 @@ public class ShellFrame
             return ("");
         }
     }
-
-//    /**
-//     * Get number of line where cursor is
-//     *
-//     * @return the line number
-//     */
-//    private int getLinePos ()
-//    {
-//        int caretPos = mainTextArea.getCaretPosition();
-//        int rowNum = 0;
-//        for (int offset = caretPos; offset > 0; )
-//        {
-//            try
-//            {
-//                offset = Utilities.getRowStart(mainTextArea, offset) - 1;
-//            }
-//            catch (BadLocationException e)
-//            {
-//                e.printStackTrace();
-//            }
-//            rowNum++;
-//        }
-//        return rowNum;
-//    }
 
     /**
      * Wipe text area

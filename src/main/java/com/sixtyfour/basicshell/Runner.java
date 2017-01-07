@@ -5,12 +5,12 @@ import com.sixtyfour.Basic;
 import java.util.concurrent.Future;
 
 /**
- * Created by Administrator on 1/4/2017.
+ * Proxy class to instantiate an run the BASIC system
  */
 public class Runner implements Runnable
 {
     private final Basic olsenBasic;
-    private boolean running;
+    private boolean running = false;
 
     public Runner (String[] program, ShellFrame shellFrame)
     {
@@ -19,6 +19,12 @@ public class Runner implements Runnable
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));
     }
 
+    /**
+     * Compile an run a single line
+     * @param in the BASIC line
+     * @param sf reference to shell main window
+     * @return textual representation of success/error
+     */
     public static String runLine (String in, ShellFrame sf)
     {
         try

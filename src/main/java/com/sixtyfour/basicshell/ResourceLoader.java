@@ -14,12 +14,22 @@ public class ResourceLoader
     private final static String ICON = "commodore.png";
     private final static String FONT = "CommodoreServer.ttf";
 
+    /**
+     * Converts path to Inputstream
+     * to proide a unified way to load resources
+     * @param name
+     * @return Inputstream that can be used to access the file
+     */
     private static InputStream resourceAsStream (String name)
     {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
         return loader.getResourceAsStream(name);
     }
 
+    /**
+     * Load the C64 TTF font
+     * @return the loaded and resized font
+     */
     public static Font getFont()
     {
         Font nt = null;
@@ -35,6 +45,10 @@ public class ResourceLoader
         }
     }
 
+    /**
+     * Load the icon
+     * @return an Image that can be used as icon
+     */
     public static BufferedImage getIcon()
     {
         try

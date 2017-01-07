@@ -19,7 +19,7 @@ import static java.awt.Toolkit.getDefaultToolkit;
 import static java.awt.datatransfer.DataFlavor.stringFlavor;
 
 /**
- * Created by Administrator on 1/6/2017.
+ * Subclassed JTextArea
  */
 class ShellTextComponent extends JTextArea
 {
@@ -39,10 +39,10 @@ class ShellTextComponent extends JTextArea
         BlockCaret mc = new BlockCaret();
         mc.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         setCaret(mc);
-        setFont (ResourceLoader.getFont());
+        setFont(ResourceLoader.getFont());
         addKeyListener(new KeyAdapter()
         {
-            public void keyTyped(KeyEvent e)
+            public void keyTyped (KeyEvent e)
             {
                 char keyChar = e.getKeyChar();
                 if (Character.isLowerCase(keyChar))
@@ -68,7 +68,7 @@ class ShellTextComponent extends JTextArea
                             List<File> files = (List<File>) transferable.getTransferData(flavor);
                             File f = files.get(0);
                             parent.getStore().load(f.getPath());
-                            parent.putStringUCase("Loaded: "+f.getName()+"\n"+ProgramStore.OK);
+                            parent.putStringUCase("Loaded: " + f.getName() + "\n" + ProgramStore.OK);
                             return; // only one file
                         }
                     }
@@ -81,6 +81,9 @@ class ShellTextComponent extends JTextArea
         });
     }
 
+    /**
+     * Called if types ctrl+v
+     */
     @Override
     public void paste ()
     {
@@ -89,7 +92,15 @@ class ShellTextComponent extends JTextArea
             String[] lines = getClipBoardString().split("[\r\n]+");
             for (String s : lines)
             {
-                parent.getStore().insert(s.trim());
+                s = s.trim();
+                if (Character.isDigit(s.charAt(0))) // program line?
+                {
+                    parent.getStore().insert(s.trim());
+                }
+                else
+                {
+                    Runner.runLine(s, parent);
+                }
             }
             parent.putStringUCase("" + lines.length + " lines pasted\n" + ProgramStore.OK);
         }

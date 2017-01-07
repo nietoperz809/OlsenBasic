@@ -437,7 +437,7 @@ public class Parser {
 			term = "(" + term + ")";
 		}
 		term = term.replace('↑', '^');
-		return addBrackets(addBrackets(handleNegations(replaceLogicOperators(term)), 0), 1);
+		return addBrackets(addBrackets(handleSigns(replaceLogicOperators(term)), 0), 1);
 	}
 
 	/**
@@ -569,34 +569,53 @@ public class Parser {
 
 	/**
 	 * Handles negations by adding an additional -1* in front of the negated
-	 * element.
+	 * element. The same applies to terms like ++2, by adding an additional 1*
+	 * in front.
 	 * 
 	 * @param term
 	 *            the term
 	 * @return the resulting term
 	 */
-	private static String handleNegations(String term) {
+	private static String handleSigns(String term) {
+		//System.out.println("Start: " + term);
 		term = removeWhiteSpace(term);
 		StringBuilder sb = new StringBuilder();
 		boolean inString = false;
 		boolean wasOp = true;
-		wasOp = true;
 		for (int i = 0; i < term.length(); i++) {
 			char c = term.charAt(i);
 			if (c == '\"') {
 				inString = !inString;
 			}
 			if (!inString && c == '-' && wasOp) {
-				int end = findEnd(term, i);
-				sb.append(term.substring(0, i)).append("(-1*").append(term.substring(i + 1, end)).append(")").append(term.substring(end));
-				i = i + 1;
+				wrapSign(term, sb, i, "-1");
+				i++;
 				term = sb.toString();
 				sb.setLength(0);
+			} else {
+				if (!inString && c == '+' && wasOp) {
+					int end = findEndOfNegation(term, i, false);
+					if (end == i + 1) {
+						throw new RuntimeException("Syntax error: " + term);
+					}
+					sb.append(term.substring(0, i)).append("(").append(term.substring(i + 1, end)).append(")").append(term.substring(end));
+					term = sb.toString();
+					sb.setLength(0);
+				}
 			}
 
 			wasOp = Operator.isOperator(c) || c == '(';
 		}
+		//System.out.println("Result: " + term);
 		return term;
+	}
+
+	private static void wrapSign(String term, StringBuilder sb, int i, String sign) {
+		int end = findEndOfNegation(term, i, true);
+		if (end == i + 1) {
+			throw new RuntimeException("Syntax error: " + term);
+		}
+		sb.append(term.substring(0, i)).append("(" + sign + "*").append(term.substring(i + 1, end)).append(")").append(term.substring(end));
 	}
 
 	/**
@@ -759,6 +778,32 @@ public class Parser {
 		return term.length();
 	}
 
+	private static int findEndOfNegation(String term, int pos, boolean negative) {
+		int brackets = 0;
+		boolean rowOfOps = true;
+		for (int i = pos + 1; i < term.length(); i++) {
+			char c = term.charAt(i);
+			if (c == ',') {
+				return i;
+			}
+
+			boolean opi = Operator.isOperator(c);
+			if (!opi && negative) {
+				rowOfOps = false;
+			}
+
+			if (brackets == 0 && ((opi && !rowOfOps) || c == ')')) {
+				return i;
+			}
+			if (c == '(') {
+				brackets++;
+			} else if (c == ')' && brackets > 0) {
+				brackets--;
+			}
+		}
+		return term.length();
+	}
+
 	/**
 	 * Finds the start of a term starting at the current position.
 	 * 
@@ -814,6 +859,7 @@ public class Parser {
 			int start = 0;
 			boolean open = false;
 			boolean inString = false;
+
 			for (int i = 0; i < term.length(); i++) {
 				char c = term.charAt(i);
 				if (c == '"') {
@@ -874,12 +920,14 @@ public class Parser {
 			finalTerm = build(finalTerm, termMap, machine);
 			finalTerm.setKey("final");
 			if (!finalTerm.isComplete()) {
+				// System.out.println("Completing: "+finalTerm.getLeft()+"/"+finalTerm.getOperator());
 				finalTerm.setOperator(Operator.NOP);
 				finalTerm.setRight(new Constant<Integer>(0));
 			}
 			finalTerm = optimizeConstants(optimizeTermTree(finalTerm, machine), machine);
 			return finalTerm;
 		} catch (NumberFormatException nfe) {
+			nfe.printStackTrace();
 			throw new RuntimeException("Syntax error: " + term);
 		}
 	}
@@ -1006,8 +1054,11 @@ public class Parser {
 		}
 		String mTerm = Parser.replaceStrings(term, '.');
 		if (!mTerm.contains("(") && !mTerm.contains(")")) {
+			term = cleanStringConcats(term);
 			Term t = new Term(term);
 			t = build(t, termMap, machine);
+			// System.out.println(term+": "+t.getLeft()+" # "+t.getOperator() +
+			// " # "+t.getRight());
 			if (!t.isComplete()) {
 				t.setOperator(Operator.NOP);
 				t.setRight(new Constant<Integer>(0));
@@ -1180,6 +1231,45 @@ public class Parser {
 	 */
 	private static boolean isTermPlaceholder(String txt) {
 		return txt.startsWith("{") && txt.indexOf('}') == (txt.length() - 1);
+	}
+
+	/**
+	 * Removes multiple occurances of + from a String concatenation.
+	 * 
+	 * @param line
+	 *            the term
+	 * @return the cleaned up term
+	 */
+	public static String cleanStringConcats(String line) {
+		if (!line.contains("\"") && !line.contains("$")) {
+			return line;
+		}
+		if (line.startsWith("+")) {
+			line = "\"\"" + line;
+		}
+		StringBuilder sb = new StringBuilder();
+		boolean inString = false;
+		int cnt = 0;
+		for (int i = 0; i < line.length(); i++) {
+			char c = line.charAt(i);
+			if (c == '"') {
+				inString = !inString;
+			}
+			if (!inString) {
+				if (c == '+') {
+					cnt++;
+				} else {
+					cnt = 0;
+				}
+				if (cnt <= 1) {
+					sb.append(c);
+				}
+			} else {
+				sb.append(c);
+				cnt = 0;
+			}
+		}
+		return sb.toString();
 	}
 
 	/**

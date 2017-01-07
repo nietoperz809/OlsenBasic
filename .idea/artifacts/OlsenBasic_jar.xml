@@ -5,7 +5,7 @@
       <element id="archive" name="OlsenBasic.jar">
         <element id="module-output" name="OlsenBasic" />
       </element>
-      <element id="dir-copy" path="$PROJECT_DIR$/ressourcs" />
+      <element id="dir-copy" path="$PROJECT_DIR$/resources" />
     </root>
   </artifact>
 </component>

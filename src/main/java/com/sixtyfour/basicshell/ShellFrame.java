@@ -141,7 +141,7 @@ public class ShellFrame
         caretLabel.setForeground(Color.pink);
         panel2.add(caretLabel);
         mainTextArea = new ShellTextComponent(this);
-        mainTextArea.setCaretColor(Color.white);
+        mainTextArea.setCaretColor(new Color(0x7C70DA));
         //mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
 

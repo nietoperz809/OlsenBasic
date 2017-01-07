@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -194,7 +195,21 @@ public class ShellFrame
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        shellFrame.putString("Commodore BASIC V2\n" + ProgramStore.OK);
+        shellFrame.putString("COMMODORE BASIC V2\n" + ProgramStore.OK);
+
+        try  // increase GUI responsiveness
+        {
+            SwingUtilities.invokeAndWait(new Runnable()
+            {
+                public void run()
+                {
+                    Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+                }});
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         shellFrame.commandLoop();
     }
 
@@ -210,7 +225,6 @@ public class ShellFrame
             toTextArea.put(outText);
             lastStrLen[0] = lastStrLen[1];
             lastStrLen[1] = outText.length();
-            //System.out.println(lastStrLen);
         }
         catch (InterruptedException e)
         {
@@ -218,9 +232,13 @@ public class ShellFrame
         }
     }
 
-    /**
-     * Command loop that runs in main thread
-     */
+    public void putStringUCase (String outText)
+    {
+        putString (outText.toUpperCase());
+    }
+        /**
+         * Command loop that runs in main thread
+         */
     private void commandLoop ()
     {
         while (true)
@@ -266,7 +284,8 @@ public class ShellFrame
                 }
                 catch (NumberFormatException unused)
                 {
-                    putString(ProgramStore.ERROR);
+                    //putString(ProgramStore.ERROR);
+                    putString(Runner.runLine(s, this));
                 }
             }
         }
@@ -297,7 +316,8 @@ public class ShellFrame
         {
             if (fileEntry.isFile())
             {
-                putString(fileEntry.getName() + " -- " + fileEntry.length() + '\n');
+                putStringUCase(fileEntry.getName() +
+                        " -- " + fileEntry.length() + '\n');
             }
         }
     }

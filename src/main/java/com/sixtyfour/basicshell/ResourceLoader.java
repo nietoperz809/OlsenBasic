@@ -7,12 +7,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by Administrator on 1/6/2017.
+ * Helper class to load resources
  */
 public class ResourceLoader
 {
     private final static String ICON = "commodore.png";
-    private final static String FONT = "C64_Pro_Mono-STYLE.ttf";
+    private final static String FONT = "CommodoreServer.ttf";
 
     private static InputStream resourceAsStream (String name)
     {

@@ -10,9 +10,9 @@ import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetAdapter;
 import java.awt.dnd.DropTargetDropEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 
 import static java.awt.Toolkit.getDefaultToolkit;
@@ -23,39 +23,7 @@ import static java.awt.datatransfer.DataFlavor.stringFlavor;
  */
 class ShellTextComponent extends JTextArea
 {
-    ShellFrame parent;
-
-    private DropTarget dropTarget = new DropTarget(this, new DropTargetAdapter()
-    {
-        @Override
-        public void drop (DropTargetDropEvent event)
-        {
-            event.acceptDrop(DnDConstants.ACTION_COPY);
-            Transferable transferable = event.getTransferable();
-            DataFlavor[] flavors = transferable.getTransferDataFlavors();
-            for (DataFlavor flavor : flavors)
-            {
-                try
-                {
-                    if (flavor.isFlavorJavaFileListType())
-                    {
-                        List<File> files = (List<File>) transferable.getTransferData(flavor);
-                        for (File file : files)
-                        {
-                            parent.getStore().clear();
-                            parent.getStore().load(file.getPath());
-                            parent.putString("Loaded: "+file.getName()+"\n"+ProgramStore.OK);
-                            return; // only one file
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    parent.putString(ProgramStore.ERROR);
-                }
-            }
-        }
-    });
+    private final ShellFrame parent;
 
     public ShellTextComponent (ShellFrame sf)
     {
@@ -72,6 +40,45 @@ class ShellTextComponent extends JTextArea
         mc.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         setCaret(mc);
         setFont (ResourceLoader.getFont());
+        addKeyListener(new KeyAdapter()
+        {
+            public void keyTyped(KeyEvent e)
+            {
+                char keyChar = e.getKeyChar();
+                if (Character.isLowerCase(keyChar))
+                {
+                    e.setKeyChar(Character.toUpperCase(keyChar));
+                }
+            }
+        });
+        new DropTarget(this, new DropTargetAdapter()
+        {
+            @Override
+            public void drop (DropTargetDropEvent event)
+            {
+                event.acceptDrop(DnDConstants.ACTION_COPY);
+                Transferable transferable = event.getTransferable();
+                DataFlavor[] flavors = transferable.getTransferDataFlavors();
+                for (DataFlavor flavor : flavors)
+                {
+                    try
+                    {
+                        if (flavor.isFlavorJavaFileListType())
+                        {
+                            List<File> files = (List<File>) transferable.getTransferData(flavor);
+                            File f = files.get(0);
+                            parent.getStore().load(f.getPath());
+                            parent.putStringUCase("Loaded: "+f.getName()+"\n"+ProgramStore.OK);
+                            return; // only one file
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        parent.putString(ProgramStore.ERROR);
+                    }
+                }
+            }
+        });
     }
 
     @Override
@@ -84,7 +91,7 @@ class ShellTextComponent extends JTextArea
             {
                 parent.getStore().insert(s.trim());
             }
-            parent.putString("" + lines.length + " lines pasted\n" + ProgramStore.OK);
+            parent.putStringUCase("" + lines.length + " lines pasted\n" + ProgramStore.OK);
         }
         catch (Exception e)
         {
@@ -93,7 +100,7 @@ class ShellTextComponent extends JTextArea
         }
     }
 
-    public static String getClipBoardString () throws Exception
+    private static String getClipBoardString () throws Exception
     {
         Clipboard clipboard = getDefaultToolkit().getSystemClipboard();
         Transferable clipData = clipboard.getContents(clipboard);

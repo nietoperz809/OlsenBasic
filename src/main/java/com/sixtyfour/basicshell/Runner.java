@@ -19,6 +19,23 @@ public class Runner implements Runnable
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));
     }
 
+    public static String runLine (String in, ShellFrame sf)
+    {
+        try
+        {
+            Basic b = new Basic("0 " + in.toUpperCase());
+            b.compile();
+            b.setOutputChannel(new ShellOutputChannel(sf));
+            b.setInputProvider(new ShellInputProvider(sf));
+            b.start();
+            return "";
+        }
+        catch (Exception ex)
+        {
+            return ProgramStore.ERROR;
+        }
+    }
+
     /**
      * Start BASIC task
      * @param synchronous if true the caller is blocked

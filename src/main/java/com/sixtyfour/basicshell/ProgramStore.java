@@ -30,10 +30,12 @@ public class ProgramStore
         return arr;
     }
 
+
     public void insert (String codeLine) throws NumberFormatException
     {
         if (codeLine.trim().isEmpty())
             return;
+        codeLine = codeLine.toUpperCase();
         int num = getLineNumber(codeLine);
         try
         {
@@ -86,6 +88,7 @@ public class ProgramStore
 
     public String load (String path)
     {
+        store.clear();
         try
         {
             try (Stream<String> stream = Files.lines(Paths.get(path)))

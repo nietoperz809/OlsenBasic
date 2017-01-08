@@ -21,6 +21,7 @@ import static java.awt.datatransfer.DataFlavor.stringFlavor;
 /**
  * Subclassed JTextArea
  */
+@SuppressWarnings("unchecked")
 class ShellTextComponent extends JTextArea
 {
     private final ShellFrame parent;
@@ -28,10 +29,12 @@ class ShellTextComponent extends JTextArea
     public ShellTextComponent (ShellFrame sf)
     {
         parent = sf;
-        setBackground(new Color(-12679937));
+        Color fg = Settings.loadForegroundColor();
+        Color bg = Settings.loadBackgroundColor();
+        setBackground(bg);
+        setForeground(fg);
+        setCaretColor(new Color(0x7C70DA));
         setDoubleBuffered(true);
-        setFont(new Font(Font.MONOSPACED, Font.BOLD, 16));
-        setForeground(Color.YELLOW);
         setToolTipText("<html>Type one of:<br>" +
                 "- cls<br>- list<br>- run<br>- new<br>" +
                 "- save[file]<br>- load[file]<br>- dir<br>" +
@@ -122,6 +125,6 @@ class ShellTextComponent extends JTextArea
                 return (String) (clipData.getTransferData(stringFlavor));
             }
         }
-        throw new Exception("no clpboard data");
+        throw new Exception("no clipboard data");
     }
 }

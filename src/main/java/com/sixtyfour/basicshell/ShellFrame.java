@@ -2,19 +2,12 @@ package com.sixtyfour.basicshell;
 
 import com.sixtyfour.Basic;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
+import java.awt.event.*;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,19 +15,20 @@ import java.util.concurrent.Executors;
 /**
  * Created by Administrator on 1/3/2017.
  */
+@SuppressWarnings("InfiniteLoopStatement")
 public class ShellFrame
 {
     static final ExecutorService executor = Executors.newFixedThreadPool(10);
     private final ArrayBlockingQueue<String> fromTextArea = new ArrayBlockingQueue<>(20);
     private final ArrayBlockingQueue<String> toTextArea = new ArrayBlockingQueue<>(20);
     private JTextArea mainTextArea;
-    private JPanel panel1;
+    private JPanel mainPanel;
     private JButton stopButton;
     private JButton clsButton;
     private JButton runButton;
     private Runner runner = null;
-    private ProgramStore store = new ProgramStore();
-    private int[] lastStrLen = new int[2]; // Length of last output chunk
+    private final ProgramStore store = new ProgramStore();
+    private final int[] lastStrLen = new int[2]; // Length of last output chunk
     private int rowNum;  // line number set by caret listener
     private int colNum;   // column number "
     private JLabel caretLabel;
@@ -107,7 +101,7 @@ public class ShellFrame
                 i.runStop();
             }
         });
-        runButton.addActionListener( e -> run(false));
+        runButton.addActionListener(e -> run(false));
         clsButton.addActionListener(e -> cls());
     }
 
@@ -116,37 +110,89 @@ public class ShellFrame
      */
     private void setupUI ()
     {
-        panel1 = new JPanel();
-        panel1.setLayout(new BorderLayout(0, 0));
-        final JPanel panel2 = new JPanel();
-        panel2.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
-        panel2.setBackground(Color.BLACK);
-        panel2.setPreferredSize(new Dimension(600, 34));
-        panel1.add(panel2, BorderLayout.SOUTH);
+        mainPanel = new JPanel();
+        mainPanel.setLayout(new BorderLayout(0, 0));
+        final JPanel bottomPanel = new JPanel();
+        bottomPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 2, 2));
+        bottomPanel.setBackground(Color.BLACK);
+        bottomPanel.setPreferredSize(new Dimension(600, 34));
+        mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         stopButton = new JButton();
         stopButton.setText("Stop");
         stopButton.setPreferredSize(new Dimension(82, 30));
         stopButton.setText("STOP");
-        panel2.add(stopButton);
+        bottomPanel.add(stopButton);
         clsButton = new JButton();
         clsButton.setPreferredSize(new Dimension(82, 30));
         clsButton.setText("CLS");
-        panel2.add(clsButton);
+        bottomPanel.add(clsButton);
         runButton = new JButton();
         runButton.setPreferredSize(new Dimension(82, 30));
         runButton.setText("RUN");
-        panel2.add(runButton);
+        bottomPanel.add(runButton);
         caretLabel = new JLabel();
         caretLabel.setPreferredSize(new Dimension(82, 30));
         caretLabel.setForeground(Color.pink);
-        panel2.add(caretLabel);
+        bottomPanel.add(caretLabel);
         mainTextArea = new ShellTextComponent(this);
-        mainTextArea.setCaretColor(new Color(0x7C70DA));
         //mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
+        mainPanel.add(scrollPane1, BorderLayout.CENTER);
+        mainPanel.setPreferredSize(new Dimension(600, 600));
+        createPopupMenu();
+    }
 
-        panel1.add(scrollPane1, BorderLayout.CENTER);
-        panel1.setPreferredSize(new Dimension(600, 600));
+    private void createPopupMenu()
+    {
+        JPopupMenu popup;
+        JMenuItem menuItem;
+        popup = new JPopupMenu();
+        menuItem = new JMenuItem("Background Color");
+        menuItem.addActionListener(e ->
+        {
+            Color c = mainTextArea.getBackground();
+            Color nc = JColorChooser.showDialog(null, "Choose background color", c);
+            if (nc == null)
+                return;
+            mainTextArea.setBackground(nc);
+            Settings.saveBackgroundColor(nc);
+        });
+        popup.add(menuItem);
+        menuItem = new JMenuItem("Foreground Color");
+        menuItem.addActionListener(e ->
+        {
+            Color c = mainTextArea.getForeground();
+            Color nc = JColorChooser.showDialog(null, "Choose text color", c);
+            if (nc == null)
+                return;
+            mainTextArea.setForeground(nc);
+            Settings.saveForegroundColor(nc);
+        });
+        popup.add(menuItem);
+
+        // Add listener to components that can bring up popup menus.
+        mainTextArea.addMouseListener(new MouseAdapter()
+        {
+            private void maybeShowPopup(MouseEvent e)
+            {
+                if (e.isPopupTrigger())
+                {
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e)
+            {
+                maybeShowPopup(e);
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e)
+            {
+                maybeShowPopup(e);
+            }
+        });
     }
 
     /**
@@ -169,18 +215,18 @@ public class ShellFrame
         }
     }
 
+    private void run (boolean sync)
+    {
+        runner = new Runner(store.toArray(), this);
+        runner.start(sync);
+    }
+
     /**
      * Wipe text area
      */
     private void cls ()
     {
         mainTextArea.setText("");
-    }
-
-    private void run (boolean sync)
-    {
-        runner = new Runner(store.toArray(), this);
-        runner.start (sync);
     }
 
     /**
@@ -191,7 +237,7 @@ public class ShellFrame
         JFrame frame = new JFrame("Commodore BASIC V2");
         frame.setIconImage(ResourceLoader.getIcon());
         ShellFrame shellFrame = new ShellFrame();
-        frame.setContentPane(shellFrame.panel1);
+        frame.setContentPane(shellFrame.mainPanel);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -199,12 +245,7 @@ public class ShellFrame
 
         try  // increase GUI responsiveness
         {
-            SwingUtilities.invokeAndWait(new Runnable()
-            {
-                public void run()
-                {
-                    Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
-                }});
+            SwingUtilities.invokeAndWait(() -> Thread.currentThread().setPriority(Thread.MAX_PRIORITY));
         }
         catch (Exception e)
         {
@@ -232,13 +273,9 @@ public class ShellFrame
         }
     }
 
-    public void putStringUCase (String outText)
-    {
-        putString (outText.toUpperCase());
-    }
-        /**
-         * Command loop that runs in main thread
-         */
+    /**
+     * Command loop that runs in main thread
+     */
     private void commandLoop ()
     {
         while (true)
@@ -320,6 +357,11 @@ public class ShellFrame
                         " -- " + fileEntry.length() + '\n');
             }
         }
+    }
+
+    public void putStringUCase (String outText)
+    {
+        putString(outText.toUpperCase());
     }
 
     public ProgramStore getStore ()

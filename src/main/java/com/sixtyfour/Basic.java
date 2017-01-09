@@ -1,11 +1,5 @@
 package com.sixtyfour;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.commands.Rem;
 import com.sixtyfour.parser.Line;
@@ -18,6 +12,8 @@ import com.sixtyfour.system.BasicProgramCounter;
 import com.sixtyfour.system.Cpu;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.*;
 
 
 /**
@@ -337,7 +333,7 @@ public class Basic
       {
         String msg = t.getMessage();
         String err = "Error in line " + (cl != null ? cl.getNumber() : "??") + (msg != null ? (": " + msg) : "");
-        machine.getOutputChannel().println(0, err);
+        machine.getOutputChannel().systemPrintln(0, err);
         throw t;
       }
     }
@@ -383,7 +379,7 @@ public class Basic
     }
     else
     {
-      machine.getOutputChannel().println(0, "\nREADY.");
+      machine.getOutputChannel().systemPrintln(0, "\nREADY.");
     }
   }
 
@@ -562,7 +558,7 @@ public class Basic
     long start = System.nanoTime();
     execute(0, 0);
     long end = System.nanoTime();
-    machine.getOutputChannel().println(0, "\nREADY. (" + ((end - start) / 1000000L) + "ms)");
+    machine.getOutputChannel().systemPrintln(0, "\nREADY. (" + ((end - start) / 1000000L) + "ms)");
   }
 
 
@@ -596,7 +592,7 @@ public class Basic
 
           if (stop)
           {
-            machine.getOutputChannel().println(0, "\nBREAK IN " + num);
+            machine.getOutputChannel().systemPrintln(0, "\nBREAK IN " + num);
             break;
           }
 
@@ -623,7 +619,7 @@ public class Basic
               lineCnt = lines.size();
               if (pc.isStop())
               {
-                this.machine.getOutputChannel().println(0, "Break in " + num);
+                this.machine.getOutputChannel().systemPrintln(0, "Break in " + num);
               }
               break;
             }
@@ -631,7 +627,7 @@ public class Basic
             {
               for (String cl : code)
               {
-                this.machine.getOutputChannel().println(0, cl);
+                this.machine.getOutputChannel().systemPrintln(0, cl);
               }
             }
             else
@@ -680,7 +676,7 @@ public class Basic
     {
       String msg = t.getMessage();
       String err = "Error in line " + (num != null ? num : "??") + (msg != null ? (": " + msg) : "");
-      machine.getOutputChannel().println(0, err);
+      machine.getOutputChannel().systemPrintln(0, err);
       running = false;
       throw t;
     }

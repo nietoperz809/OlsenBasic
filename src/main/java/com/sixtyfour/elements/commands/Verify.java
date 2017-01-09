@@ -1,14 +1,15 @@
 package com.sixtyfour.elements.commands;
 
 import com.sixtyfour.plugins.DeviceProvider;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
 /**
  * The VERIFY command.
  */
-public class Verify extends FileOperation {
+public class Verify extends FileOperation
+{
 
 	/**
 	 * Instantiates a new verify.

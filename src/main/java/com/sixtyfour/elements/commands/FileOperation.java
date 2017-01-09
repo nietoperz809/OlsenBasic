@@ -1,11 +1,11 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.system.Machine;
+
+import java.util.List;
 
 /**
  * A virtual command for file operations.

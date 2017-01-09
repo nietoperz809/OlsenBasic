@@ -4,14 +4,15 @@
 package com.sixtyfour.elements.commands;
 
 import com.sixtyfour.plugins.DeviceProvider;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
 /**
  * The LOAD command.
  */
-public class Load extends FileOperation {
+public class Load extends FileOperation
+{
 
 	/**
 	 * Instantiates a new load.

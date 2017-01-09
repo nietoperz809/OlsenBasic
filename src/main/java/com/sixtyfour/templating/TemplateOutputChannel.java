@@ -9,7 +9,8 @@ import com.sixtyfour.plugins.PrintConsumer;
  * 
  * @author EgonOlsen
  */
-public class TemplateOutputChannel implements OutputChannel {
+public class TemplateOutputChannel implements OutputChannel
+{
 
 	/** The cursor. */
 	private int cursor = 0;
@@ -130,6 +131,22 @@ public class TemplateOutputChannel implements OutputChannel {
 	 */
 	public String getResult() {
 		return result.toString();
+	}
+
+	/* (non-Javadoc)
+	 * @see com.sixtyfour.plugins.PrintConsumer#systemPrint(int, java.lang.String)
+	 */
+	@Override
+	public void systemPrint(int id, String txt) {
+		this.print(id, txt);
+	}
+
+	/* (non-Javadoc)
+	 * @see com.sixtyfour.plugins.PrintConsumer#systemPrintln(int, java.lang.String)
+	 */
+	@Override
+	public void systemPrintln(int id, String txt) {
+		this.println(id, txt);	
 	}
 
 }

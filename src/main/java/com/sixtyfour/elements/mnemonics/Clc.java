@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Clc.
  */
-public class Clc extends AbstractMnemonic {
+public class Clc extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new clc.

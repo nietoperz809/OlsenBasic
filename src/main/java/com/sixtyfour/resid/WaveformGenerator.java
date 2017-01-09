@@ -38,61 +38,61 @@ import static com.sixtyfour.resid.SID.ANTTI_LANKILA_PATCH;
  */
 public class WaveformGenerator implements IWave6581, IWave8580 {
 
-	protected WaveformGenerator sync_source = null;
+	private WaveformGenerator sync_source = null;
 
-	protected WaveformGenerator sync_dest = null;
+	WaveformGenerator sync_dest = null;
 
 	/**
 	 * Tell whether the accumulator MSB was set high on this cycle.
 	 */
-	protected boolean msb_rising;
+	private boolean msb_rising;
 
-	protected int /* reg24 */accumulator;
+	int /* reg24 */accumulator;
 
-	protected int /* reg24 */shift_register;
+	int /* reg24 */shift_register;
 
 	/**
 	 * Fout = (Fn*Fclk/16777216)Hz
 	 */
-	protected int /* reg16 */freq;
+	int /* reg16 */freq;
 
 	/**
 	 * PWout = (PWn/40.95)%
 	 */
-	protected int /* reg12 */pw;
+	int /* reg12 */pw;
 
 	/**
 	 * The control register right-shifted 4 bits; used for output function table
 	 * lookup.
 	 */
-	protected int /* reg8 */waveform;
+	int /* reg8 */waveform;
 
 	/**
 	 * The remaining control register bits.
 	 */
-	protected int /* reg8 */test;
+	int /* reg8 */test;
 
 	/**
 	 * The remaining control register bits.
 	 */
-	protected int /* reg8 */ring_mod;
+	int /* reg8 */ring_mod;
 
 	/**
 	 * The remaining control register bits.
 	 */
-	protected int /* reg8 */sync;
+	int /* reg8 */sync;
 
 	// The gate bit is handled by the EnvelopeGenerator
 
 	// Sample data for combinations of waveforms.
 
-	int /* reg8 */wave__ST[];
+	private int[] /* reg8 */wave__ST;
 
-	int /* reg8 */wave_P_T[];
+	private int[] /* reg8 */wave_P_T;
 
-	int /* reg8 */wave_PS_[];
+	private int[] /* reg8 */wave_PS_;
 
-	int /* reg8 */wave_PST[];
+	private int[] /* reg8 */wave_PST;
 
 	// The gate bit is handled by the EnvelopeGenerator.
 
@@ -299,12 +299,12 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 		accumulator &= 0xffffff;
 
 		// Check whether the MSB is set high. This is used for synchronization.
-		msb_rising = !((accumulator_prev & 0x800000) != 0)
+		msb_rising = (accumulator_prev & 0x800000) == 0
 				&& ((accumulator & 0x800000) != 0);
 
 		// Shift noise register once for each time accumulator bit 19 is set
 		// high.
-		if (!((accumulator_prev & 0x080000) != 0)
+		if ((accumulator_prev & 0x080000) == 0
 				&& ((accumulator & 0x080000) != 0)) {
 			int /* reg24 */bit0 = ((shift_register >> 22) ^ (shift_register >> 17)) & 0x1;
 			shift_register <<= 1;
@@ -330,7 +330,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 		accumulator &= 0xffffff;
 
 		// Check whether the MSB is set high. This is used for synchronization.
-		msb_rising = !((accumulator_prev & 0x800000) != 0)
+		msb_rising = (accumulator_prev & 0x800000) == 0
 				&& ((accumulator & 0x800000) != 0);
 
 		// Shift noise register once for each time accumulator bit 19 is set
@@ -347,14 +347,14 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 				if (shift_period <= 0x080000) {
 					// Check for flip from 0 to 1.
 					if ((((accumulator - shift_period) & 0x080000) != 0)
-							|| !((accumulator & 0x080000) != 0)) {
+							|| (accumulator & 0x080000) == 0) {
 						break;
 					}
 				} else {
 					// Check for flip from 0 (to 1 or via 1 to 0) or from 1 via
 					// 0 to 1.
 					if ((((accumulator - shift_period) & 0x080000) != 0)
-							&& !((accumulator & 0x080000) != 0)) {
+							&& (accumulator & 0x080000) == 0) {
 						break;
 					}
 				}
@@ -399,7 +399,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * 
 	 * @return zero
 	 */
-	protected int /* reg12 */output____() {
+	private int /* reg12 */output____ () {
 		return 0x000;
 	}
 
@@ -412,7 +412,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * 
 	 * @return triangle
 	 */
-	protected int /* reg12 */output___T() {
+	private int /* reg12 */output___T () {
 		int /* reg24 */msb = ((ring_mod != 0) ? accumulator
 				^ sync_source.accumulator : accumulator) & 0x800000;
 		return (((msb != 0) ? ~accumulator : accumulator) >> 11) & 0xfff;
@@ -424,7 +424,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * 
 	 * @return sawtooth
 	 */
-	protected int /* reg12 */output__S_() {
+	private int /* reg12 */output__S_ () {
 		return accumulator >> 12;
 	}
 
@@ -441,7 +441,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * 
 	 * @return
 	 */
-	protected int /* reg12 */output_P__() {
+	private int /* reg12 */output_P__ () {
 		return ((test != 0) || (accumulator >> 12) >= pw) ? 0xfff : 0x000;
 	}
 
@@ -465,7 +465,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * 
 	 * Since waveform output is 12 bits the output is left-shifted 4 times.
 	 */
-	protected int /* reg12 */outputN___() {
+	private int /* reg12 */outputN___ () {
 		return ((shift_register & 0x400000) >> 11)
 				| ((shift_register & 0x100000) >> 10)
 				| ((shift_register & 0x010000) >> 7)
@@ -532,7 +532,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * Pulse+Sawtooth+Triangle: The sawtooth output is used to look up an OSC3
 	 * sample. The sample is output if the pulse output is on.
 	 */
-	protected int /* reg12 */output__ST() {
+	private int /* reg12 */output__ST () {
 		return wave__ST[output__S_()] << 4;
 	}
 
@@ -592,7 +592,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * Pulse+Sawtooth+Triangle: The sawtooth output is used to look up an OSC3
 	 * sample. The sample is output if the pulse output is on.
 	 */
-	protected int /* reg12 */output_P_T() {
+	private int /* reg12 */output_P_T () {
 		return (wave_P_T[output___T() >> 1] << 4) & output_P__();
 	}
 
@@ -652,7 +652,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * Pulse+Sawtooth+Triangle: The sawtooth output is used to look up an OSC3
 	 * sample. The sample is output if the pulse output is on.
 	 */
-	protected int /* reg12 */output_PS_() {
+	private int /* reg12 */output_PS_ () {
 		return (wave_PS_[output__S_()] << 4) & output_P__();
 	}
 
@@ -712,7 +712,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * Pulse+Sawtooth+Triangle: The sawtooth output is used to look up an OSC3
 	 * sample. The sample is output if the pulse output is on.
 	 */
-	protected int /* reg12 */output_PST() {
+	private int /* reg12 */output_PST () {
 		return (wave_PST[output__S_()] << 4) & output_P__();
 	}
 
@@ -728,7 +728,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputN__T() {
+	private int /* reg12 */outputN__T () {
 		return 0;
 	}
 
@@ -744,7 +744,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputN_S_() {
+	private int /* reg12 */outputN_S_ () {
 		return 0;
 	}
 
@@ -760,7 +760,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputN_ST() {
+	private int /* reg12 */outputN_ST () {
 		return 0;
 	}
 
@@ -776,7 +776,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputNP__() {
+	private int /* reg12 */outputNP__ () {
 		return 0;
 	}
 
@@ -792,7 +792,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputNP_T() {
+	private int /* reg12 */outputNP_T () {
 		return 0;
 	}
 
@@ -808,7 +808,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputNPS_() {
+	private int /* reg12 */outputNPS_ () {
 		return 0;
 	}
 
@@ -824,7 +824,7 @@ public class WaveformGenerator implements IWave6581, IWave8580 {
 	 * is very little audible output from waveform combinations including noise.
 	 * We hope that nobody is actually using it.
 	 */
-	protected int /* reg12 */outputNPST() {
+	private int /* reg12 */outputNPST () {
 		return 0;
 	}
 

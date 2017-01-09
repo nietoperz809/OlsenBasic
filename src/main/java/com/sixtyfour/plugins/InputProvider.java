@@ -12,13 +12,13 @@ public interface InputProvider {
 	 * 
 	 * @return the character
 	 */
-	Character readKey();
+	Character readKey ();
 
 	/**
 	 * Reads a string.
 	 * 
 	 * @return the string
 	 */
-	String readString();
+	String readString ();
 
 }

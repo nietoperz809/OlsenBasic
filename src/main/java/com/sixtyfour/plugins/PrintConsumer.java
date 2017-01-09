@@ -16,7 +16,7 @@ public interface PrintConsumer {
 	 * @param txt
 	 *            the text
 	 */
-	void print(int id, String txt);
+	void print (int id, String txt);
 
 	/**
 	 * Prints a text followed by a line break.
@@ -26,6 +26,26 @@ public interface PrintConsumer {
 	 * @param txt
 	 *            the text
 	 */
-	void println(int id, String txt);
+	void println (int id, String txt);
+
+	/**
+	 * Prints a system message without a line break.
+	 * 
+	 * @param id
+	 *            a channel id
+	 * @param txt
+	 *            the text
+	 */
+	void systemPrint (int id, String txt);
+
+	/**
+	 * Prints a system message followed by a line break.
+	 * 
+	 * @param id
+	 *            a channel id
+	 * @param txt
+	 *            the text
+	 */
+	void systemPrintln (int id, String txt);
 
 }

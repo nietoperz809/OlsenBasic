@@ -1,10 +1,10 @@
 package com.sixtyfour.templating;
 
-import java.util.Map;
-
 import com.sixtyfour.plugins.SystemCallListener;
 import com.sixtyfour.plugins.impl.RamSystemCallListener;
 import com.sixtyfour.system.Machine;
+
+import java.util.Map;
 
 /**
  * A listener used to process templates. Template parsing inserts SYS1000 calls
@@ -12,7 +12,8 @@ import com.sixtyfour.system.Machine;
  * done here. All other SYS-calls will be redirect to an internal instance of
  * RamSystemCallListener.
  */
-public class StaticTemplateCallListener implements SystemCallListener {
+public class StaticTemplateCallListener implements SystemCallListener
+{
 
 	/** The parts. */
 	private Map<Integer, TemplatePart> parts;

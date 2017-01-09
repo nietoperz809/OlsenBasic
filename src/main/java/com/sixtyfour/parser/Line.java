@@ -1,9 +1,9 @@
 package com.sixtyfour.parser;
 
+import com.sixtyfour.elements.commands.Command;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import com.sixtyfour.elements.commands.Command;
 
 /**
  * A line in a BASIC program.

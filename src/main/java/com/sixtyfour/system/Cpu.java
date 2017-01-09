@@ -1,9 +1,9 @@
 package com.sixtyfour.system;
 
-import java.util.List;
-
 import com.sixtyfour.elements.mnemonics.Mnemonic;
 import com.sixtyfour.elements.mnemonics.MnemonicList;
+
+import java.util.List;
 
 /**
  * Cpu is a 6502 emulation. It can be used to run actual binary 6502 code. Cpu

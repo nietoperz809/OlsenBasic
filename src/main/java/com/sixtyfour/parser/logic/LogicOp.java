@@ -24,7 +24,7 @@ public interface LogicOp
    *          the logic block to apply the operation to
    * @return the result of the evaluation
    */
-  boolean eval(Machine machine, boolean state, LogicBlock block);
+  boolean eval (Machine machine, boolean state, LogicBlock block);
 
 
   /**
@@ -32,5 +32,5 @@ public interface LogicOp
    * 
    * @return true, if it is the and-operation
    */
-  boolean isAnd();
+  boolean isAnd ();
 }

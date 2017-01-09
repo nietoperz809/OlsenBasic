@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Bvs.
  */
-public class Bvs extends AbstractMnemonic {
+public class Bvs extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new bvs.

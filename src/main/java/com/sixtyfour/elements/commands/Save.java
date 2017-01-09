@@ -1,14 +1,15 @@
 package com.sixtyfour.elements.commands;
 
 import com.sixtyfour.plugins.DeviceProvider;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
 /**
  * The SAVE command.
  */
-public class Save extends FileOperation {
+public class Save extends FileOperation
+{
 
 	/**
 	 * Instantiates a new save.

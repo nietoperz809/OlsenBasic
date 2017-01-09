@@ -1,8 +1,5 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.parser.Term;
@@ -10,12 +7,16 @@ import com.sixtyfour.parser.VariableAndIndex;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * An abstract base class for commands that can have multiple variables like READ.
  * 
  * @author EgonOlsen
  */
-public abstract class MultiVariableCommand extends AbstractCommand {
+public abstract class MultiVariableCommand extends AbstractCommand
+{
 
 	/** The vars. */
 	protected List<Variable> vars = new ArrayList<Variable>();
@@ -68,7 +69,7 @@ public abstract class MultiVariableCommand extends AbstractCommand {
 			input = '0';
 		}
 		if (checkColon && input == ':') {
-			machine.getOutputChannel().println(0, "?Extra ignored:" + this);
+			machine.getOutputChannel().systemPrintln(0, "?Extra ignored:" + this);
 			input = '0';
 		}
 		if (input < '0' || input > '9') {

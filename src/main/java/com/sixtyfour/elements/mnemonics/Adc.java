@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Adc.
  */
-public class Adc extends AbstractMnemonic {
+public class Adc extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new adc.

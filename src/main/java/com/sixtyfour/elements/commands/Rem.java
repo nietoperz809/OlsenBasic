@@ -1,12 +1,13 @@
 package com.sixtyfour.elements.commands;
 
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The REM command.
  */
-public class Rem extends AbstractCommand {
+public class Rem extends AbstractCommand
+{
 
 	/** The Constant REM_MARKER. */
 	public final static String REM_MARKER = "###";

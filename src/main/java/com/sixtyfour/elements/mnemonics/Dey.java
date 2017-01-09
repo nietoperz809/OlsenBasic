@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Dey.
  */
-public class Dey extends AbstractMnemonic {
+public class Dey extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new dey.

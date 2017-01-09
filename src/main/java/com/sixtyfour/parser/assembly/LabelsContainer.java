@@ -1,13 +1,13 @@
 package com.sixtyfour.parser.assembly;
 
+import com.sixtyfour.elements.mnemonics.MnemonicList;
+import com.sixtyfour.system.Machine;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.sixtyfour.elements.mnemonics.MnemonicList;
-import com.sixtyfour.system.Machine;
 
 
 /**

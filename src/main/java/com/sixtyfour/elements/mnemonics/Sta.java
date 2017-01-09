@@ -4,7 +4,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Sta.
  */
-public class Sta extends AbstractMnemonic {
+public class Sta extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new sta.

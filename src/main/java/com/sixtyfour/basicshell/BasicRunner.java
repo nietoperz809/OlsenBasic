@@ -81,7 +81,14 @@ public class BasicRunner implements Runnable
     public void run()
     {
         running = true;
-        olsenBasic.run();
+        try
+        {
+            olsenBasic.run();
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+        }
         running = false;
     }
 }

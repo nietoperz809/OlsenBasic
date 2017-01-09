@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Eor.
  */
-public class Eor extends AbstractMnemonic {
+public class Eor extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new eor.

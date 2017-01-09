@@ -1,17 +1,18 @@
 package com.sixtyfour.elements.systemvars;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.system.Machine;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A system variable that represents the current time and date.
  * 
  * @author EgonOlsen
  */
-public class TimeDate extends Variable {
+public class TimeDate extends Variable
+{
 
 	/** The sdf. */
 	private SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");
@@ -48,7 +49,7 @@ public class TimeDate extends Variable {
 		long now = System.currentTimeMillis();
 		long dif = now - setTime;
 		long add = initTime + dif;
-		return new java.util.Date(add);
+		return new Date(add);
 	}
 
 	/*

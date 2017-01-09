@@ -14,7 +14,7 @@ public interface SystemCallListener
    * @param params
    *          optional parameters
    */
-  void sys(int addr, Object... params);
+  void sys (int addr, Object... params);
 
 
   /**
@@ -25,5 +25,5 @@ public interface SystemCallListener
    *          environment...)
    * @return the return value
    */
-  float usr(Object params);
+  float usr (Object params);
 }

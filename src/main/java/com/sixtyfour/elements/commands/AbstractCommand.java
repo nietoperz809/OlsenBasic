@@ -2,14 +2,15 @@ package com.sixtyfour.elements.commands;
 
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.parser.Term;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
 /**
  * An abstract, common base class for commands.
  */
-public abstract class AbstractCommand implements Command {
+public abstract class AbstractCommand implements Command
+{
 
 	/** The name. */
 	protected String name;

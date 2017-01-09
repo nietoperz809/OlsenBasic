@@ -1,12 +1,13 @@
 package com.sixtyfour.elements.commands;
 
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The Class Restore.
  */
-public class Restore extends AbstractCommand {
+public class Restore extends AbstractCommand
+{
 
 	/**
 	 * The RESTORE command.

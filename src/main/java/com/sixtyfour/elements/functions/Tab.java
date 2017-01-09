@@ -7,7 +7,8 @@ import com.sixtyfour.util.VarUtils;
 /**
  * The TAB function.
  */
-public class Tab extends Spc {
+public class Tab extends Spc
+{
 
 	/**
 	 * Instantiates a new tab.

@@ -1,10 +1,10 @@
 package com.sixtyfour.parser.logic;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.system.Machine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A logic term.

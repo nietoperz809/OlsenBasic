@@ -9,29 +9,31 @@
 package com.sixtyfour.resid;
 
 import javax.sound.sampled.*;
-import java.util.Random;
 
 public class AudioDriverSE
 {
     private SourceDataLine dataLine;
     private FloatControl volume;
-    private int vol = 0;
     private boolean soundOn = true;
     private boolean fullSpeed = false;
 
-    public int available ()
-    {
-        if (dataLine == null)
-        {
-            return 0;
-        }
-        return dataLine.available();
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public int available ()
+//    {
+//        if (dataLine == null)
+//        {
+//            return 0;
+//        }
+//        return dataLine.available();
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-    public int getMasterVolume ()
-    {
-        return vol;
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public int getMasterVolume ()
+//    {
+//        return vol;
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
     public void setMasterVolume (int v)
     {
@@ -39,22 +41,25 @@ public class AudioDriverSE
         {
             volume.setValue(-10.0f + 0.1f * v);
         }
-        vol = v;
     }
 
-    public long getMicros ()
-    {
-        if (dataLine == null)
-        {
-            return 0;
-        }
-        return dataLine.getMicrosecondPosition();
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public long getMicros ()
+//    {
+//        if (dataLine == null)
+//        {
+//            return 0;
+//        }
+//        return dataLine.getMicrosecondPosition();
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-    public boolean hasSound ()
-    {
-        return dataLine != null;
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public boolean hasSound ()
+//    {
+//        return dataLine != null;
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
     public void init (int sampleRate, int bufferSize)
     {
@@ -71,7 +76,7 @@ public class AudioDriverSE
             }
             else
             {
-                System.out.println("DataLine allocated: " + dataLine);
+                //System.out.println("DataLine allocated: " + dataLine);
                 dataLine.open(dataLine.getFormat(), bufferSize);
                 volume = (FloatControl)
                         dataLine.getControl(FloatControl.Type.MASTER_GAIN);
@@ -87,10 +92,12 @@ public class AudioDriverSE
         }
     }
 
-    public void shutdown ()
-    {
-        dataLine.close();
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public void shutdown ()
+//    {
+//        dataLine.close();
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
     public void write (byte[] buffer)
     {
@@ -99,65 +106,63 @@ public class AudioDriverSE
             return;
         }
         int bsize = buffer.length;
-        if (!fullSpeed)
-        {
             while (dataLine.available() < bsize)
             {
-                try
-                {
-                    Thread.sleep(1);
-                }
-                catch (Exception e)
-                {
-                }
+                Thread.yield();
             }
-        }
-        else if (dataLine.available() < bsize)
-        {
-            return;
-        }
-        if (!soundOn)
-        {
-            // Kill sound!!!
-            for (int i = 0; i < buffer.length; i++)
-            {
-                buffer[i] = 0;
-            }
-        }
+//        else if (dataLine.available() < bsize)
+//        {
+//            return;
+//        }
+//        if (!soundOn)
+//        {
+//            // Kill sound!!!
+//            for (int i = 0; i < buffer.length; i++)
+//            {
+//                buffer[i] = 0;
+//            }
+//        }
         dataLine.write(buffer, 0, bsize);
     }
 
-    public void setSoundOn (boolean on)
-    {
-        soundOn = on;
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public void setSoundOn (boolean on)
+//    {
+//        soundOn = on;
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-    public void setFullSpeed (boolean full)
-    {
-        fullSpeed = full;
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public void setFullSpeed (boolean full)
+//    {
+//        fullSpeed = full;
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-    public boolean fullSpeed ()
-    {
-        return fullSpeed;
-    }
+// --Commented out by Inspection START (1/9/2017 7:19 AM):
+//    public boolean fullSpeed ()
+//    {
+//        return fullSpeed;
+//    }
+// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-    /**
-     * Test audio
-     * @param args
-     */
-    public static void main (String[] args)
-    {
-        AudioDriverSE audioDriver = new AudioDriverSE();
-        audioDriver.init(44000, 22000);
-        audioDriver.setMasterVolume(100);
-
-        byte[] buff = new byte[256];
-        Random rand = new Random();
-        while (true)
-        {
-            rand.nextBytes(buff);
-            audioDriver.write(buff);    // make some noise
-        }
-    }
+//    /**
+//     * Test audio
+//     * @param args
+//     */
+//    @SuppressWarnings("InfiniteLoopStatement")
+//    public static void main (String[] args)
+//    {
+//        AudioDriverSE audioDriver = new AudioDriverSE();
+//        audioDriver.init(44000, 22000);
+//        audioDriver.setMasterVolume(100);
+//
+//        byte[] buff = new byte[256];
+//        Random rand = new Random();
+//        while (true)
+//        {
+//            rand.nextBytes(buff);
+//            audioDriver.write(buff);    // make some noise
+//        }
+//    }
 }

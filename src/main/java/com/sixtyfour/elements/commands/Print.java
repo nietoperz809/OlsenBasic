@@ -1,8 +1,5 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.elements.functions.Function;
 import com.sixtyfour.elements.functions.FunctionList;
@@ -14,10 +11,14 @@ import com.sixtyfour.system.BasicProgramCounter;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The PRINT command.
  */
-public class Print extends AbstractCommand {
+public class Print extends AbstractCommand
+{
 
 	/** The parts. */
 	protected List<PrintPart> parts = new ArrayList<PrintPart>();

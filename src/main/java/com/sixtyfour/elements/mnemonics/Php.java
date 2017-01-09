@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Php.
  */
-public class Php extends AbstractMnemonic {
+public class Php extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new php.

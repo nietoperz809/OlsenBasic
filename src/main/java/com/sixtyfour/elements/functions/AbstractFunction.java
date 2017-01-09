@@ -8,7 +8,8 @@ import com.sixtyfour.util.VarUtils;
 /**
  * An abstract base class for functions that provides some common code base.
  */
-public abstract class AbstractFunction implements Function {
+public abstract class AbstractFunction implements Function
+{
 
 	/** The name. */
 	protected String name;

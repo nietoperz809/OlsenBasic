@@ -35,28 +35,28 @@ public interface Mnemonic {
 	 *            the line
 	 * @return can we handle it?
 	 */
-	boolean isMnemonic(String linePart);
+	boolean isMnemonic (String linePart);
 
 	/**
 	 * Returns true if the mnemonic uses relative addressing.
 	 * 
 	 * @return does it?
 	 */
-	boolean isRelative();
+	boolean isRelative ();
 
 	/**
 	 * Returns true if the mnemonic has no operands.
 	 * 
 	 * @return is it single?
 	 */
-	boolean isSingle();
+	boolean isSingle ();
 
 	/**
 	 * Returns true if the mnemonic is a jump.
 	 * 
 	 * @return is it a jump?
 	 */
-	boolean isJump();
+	boolean isJump ();
 
 	/**
 	 * Returns the abstract instruction in human readable form.
@@ -64,6 +64,6 @@ public interface Mnemonic {
 	 * @return the instruction or null, if the opcode doesn't belong to this
 	 *         mnemonic
 	 */
-	String getInstruction(int opcode);
+	String getInstruction (int opcode);
 
 }

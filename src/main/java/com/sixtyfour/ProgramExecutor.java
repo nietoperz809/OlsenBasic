@@ -15,43 +15,43 @@ public interface ProgramExecutor {
 	/**
 	 * Compiles a program.
 	 */
-	void compile();
+	void compile ();
 
 	/**
 	 * Runs a program.
 	 */
-	void run();
+	void run ();
 
 	/**
 	 * Starts a program.
 	 */
-	void start();
+	void start ();
 
 	/**
 	 * Gets the machine.
 	 * 
 	 * @return the machine
 	 */
-	Machine getMachine();
+	Machine getMachine ();
 
 	/**
 	 * Gets the cpu.
 	 * 
 	 * @return the cpu
 	 */
-	Cpu getCpu();
+	Cpu getCpu ();
 
 	/**
 	 * Gets the ram.
 	 * 
 	 * @return the ram
 	 */
-	int[] getRam();
+	int[] getRam ();
 
 	/**
 	 * Stops execution after the next command.
 	 */
-	void runStop();
+	void runStop ();
 
 	/**
 	 * Is the code running?
@@ -59,5 +59,5 @@ public interface ProgramExecutor {
 	 * @return is it?
 	 */
 
-	boolean isRunning();
+	boolean isRunning ();
 }

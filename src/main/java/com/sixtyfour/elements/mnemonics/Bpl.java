@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Bpl.
  */
-public class Bpl extends AbstractMnemonic {
+public class Bpl extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new bpl.

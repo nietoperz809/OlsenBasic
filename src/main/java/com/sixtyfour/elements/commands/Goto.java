@@ -3,13 +3,14 @@
  */
 package com.sixtyfour.elements.commands;
 
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The GOTO command.
  */
-public class Goto extends AbstractCommand {
+public class Goto extends AbstractCommand
+{
 
 	/** The pc. */
 	private BasicProgramCounter pc = new BasicProgramCounter(0, 0); // Recycle instance

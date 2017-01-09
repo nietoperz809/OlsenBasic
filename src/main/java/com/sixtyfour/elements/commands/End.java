@@ -1,12 +1,13 @@
 package com.sixtyfour.elements.commands;
 
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The END command.
  */
-public class End extends AbstractCommand {
+public class End extends AbstractCommand
+{
 
 	/**
 	 * Instantiates a new end.

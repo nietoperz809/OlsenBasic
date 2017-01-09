@@ -46,37 +46,37 @@ public class ExternalFilter {
 	/**
 	 * Filter enabled.
 	 */
-	protected boolean enabled;
+    private boolean enabled;
 
 	/**
 	 * Maximum mixer DC offset.
 	 */
-	protected int /* sound_sample */mixer_DC;
+    private int /* sound_sample */mixer_DC;
 
 	/**
 	 * State of filters. lowpass
 	 */
-	protected int /* sound_sample */Vlp;
+    private int /* sound_sample */Vlp;
 
 	/**
 	 * State of filters. highpass
 	 */
-	protected int /* sound_sample */Vhp;
+    private int /* sound_sample */Vhp;
 
 	/**
 	 * State of filters.
 	 */
-	protected int /* sound_sample */Vo;
+    private int /* sound_sample */Vo;
 
 	/**
 	 * Cutoff frequencies.
 	 */
-	protected int /* sound_sample */w0lp;
+    private int /* sound_sample */w0lp;
 
 	/**
 	 * Cutoff frequencies.
 	 */
-	protected int /* sound_sample */w0hp;
+    private int /* sound_sample */w0hp;
 
 	// ----------------------------------------------------------------------------
 	// Inline functions.

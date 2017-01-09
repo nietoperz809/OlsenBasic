@@ -17,7 +17,7 @@ public interface Function extends Atom {
 	 * 
 	 * @return the name
 	 */
-	String getName();
+	String getName ();
 
 	/**
 	 * Checks if some string matches this function's name.
@@ -26,21 +26,21 @@ public interface Function extends Atom {
 	 *            the function
 	 * @return true, if is function
 	 */
-	boolean isFunction(String function);
+	boolean isFunction (String function);
 
 	/**
 	 * Clones the function.
 	 * 
 	 * @return the cloned function
 	 */
-	Function clone();
+	Function clone ();
 
 	/**
 	 * Gets the term to which the function should be applied to.
 	 * 
 	 * @return the term
 	 */
-	Term getTerm();
+	Term getTerm ();
 
 	/**
 	 * Sets the term to which the function should be applied to.
@@ -59,14 +59,14 @@ public interface Function extends Atom {
 	 * @param machine
 	 *            the current machine
 	 */
-	void parse(String linePart, Machine machine);
+	void parse (String linePart, Machine machine);
 
 	/**
 	 * Returns true, if this function has a postfix.
 	 * 
 	 * @return true, if it has.
 	 */
-	boolean hasPostfix();
+	boolean hasPostfix ();
 
 	/**
 	 * Sets the function's name. This is used for user defined functions only. 
@@ -74,6 +74,6 @@ public interface Function extends Atom {
 	 * @param functionName
 	 *            the function's name
 	 */
-	void setFunctionName(String functionName);
+	void setFunctionName (String functionName);
 
 }

@@ -16,7 +16,7 @@ public interface ConstantValue
    * 
    * @return the name
    */
-  String getName();
+  String getName ();
 
 
   /**
@@ -24,7 +24,7 @@ public interface ConstantValue
    * 
    * @return the value
    */
-  int getValue();
+  int getValue ();
 
 
   /**
@@ -36,5 +36,5 @@ public interface ConstantValue
    *          the address
    * @return the new address after the newly written byte(s)
    */
-  int apply(Machine machine, int address);
+  int apply (Machine machine, int address);
 }

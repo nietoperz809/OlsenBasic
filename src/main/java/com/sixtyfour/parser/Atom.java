@@ -15,7 +15,7 @@ public interface Atom {
 	 * 
 	 * @return the type
 	 */
-	Type getType();
+	Type getType ();
 
 	/**
 	 * Evaluates this Atom in the context of the current machine state.
@@ -32,6 +32,6 @@ public interface Atom {
 	 * 
 	 * @return true, if it's a term
 	 */
-	boolean isTerm();
+	boolean isTerm ();
 
 }

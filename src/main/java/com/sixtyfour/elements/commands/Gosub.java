@@ -3,8 +3,8 @@
  */
 package com.sixtyfour.elements.commands;
 
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The GOSUB command.

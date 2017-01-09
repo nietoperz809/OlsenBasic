@@ -1,10 +1,10 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sixtyfour.system.DataStore;
 import com.sixtyfour.system.Machine;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The DATA command.

@@ -23,9 +23,7 @@ public class PeekPokeHandler extends NullMemoryListener
         }
         else if (addr >= 0xd400 && addr <= 0xd41c)   // SID
         {
-            addr -= 0xd400;
-            SidRunner.write(addr, value);
-            //System.out.println("sid write"+addr +":"+value);
+            SidRunner.write(addr-0xd400, value);
         }
     }
 
@@ -34,9 +32,7 @@ public class PeekPokeHandler extends NullMemoryListener
     {
         if (addr >= 0xd400 && addr <= 0xd41c)   // SID
         {
-            addr -= 0xd400;
-            return SidRunner.read(addr);
-            //System.out.println("sid read"+addr);
+            return SidRunner.read(addr-0xd400);
         }
         return 0;
     }

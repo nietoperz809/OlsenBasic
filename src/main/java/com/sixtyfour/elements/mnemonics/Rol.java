@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Rol.
  */
-public class Rol extends AbstractMnemonic {
+public class Rol extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new rol.

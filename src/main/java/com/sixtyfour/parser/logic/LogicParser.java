@@ -3,13 +3,13 @@
  */
 package com.sixtyfour.parser.logic;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.parser.Term;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * A parser for logic terms.

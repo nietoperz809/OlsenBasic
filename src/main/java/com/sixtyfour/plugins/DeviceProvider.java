@@ -11,7 +11,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param fileNumber
 	 *            the file number
 	 */
-	void close(int fileNumber);
+	void close (int fileNumber);
 
 	/**
 	 * Open.
@@ -19,7 +19,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param fileNumber
 	 *            the file number
 	 */
-	void open(int fileNumber);
+	void open (int fileNumber);
 
 	/**
 	 * Open.
@@ -29,7 +29,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param device
 	 *            the device
 	 */
-	void open(int fileNumber, int device);
+	void open (int fileNumber, int device);
 
 	/**
 	 * Open.
@@ -41,7 +41,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param secondaryAddress
 	 *            the secondary address
 	 */
-	void open(int fileNumber, int device, int secondaryAddress);
+	void open (int fileNumber, int device, int secondaryAddress);
 
 	/**
 	 * Open.
@@ -55,7 +55,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param fileName
 	 *            the file name
 	 */
-	void open(int fileNumber, int device, int secondaryAddress, String fileName);
+	void open (int fileNumber, int device, int secondaryAddress, String fileName);
 
 	/**
 	 * Checks if is open.
@@ -64,7 +64,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 *            the file number
 	 * @return true, if is open
 	 */
-	boolean isOpen(int fileNumber);
+	boolean isOpen (int fileNumber);
 
 	/**
 	 * Dump.
@@ -76,7 +76,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param fileNumber
 	 *            the file number
 	 */
-	void dump(PrintConsumer pc, FileWrapper file, int fileNumber);
+	void dump (PrintConsumer pc, FileWrapper file, int fileNumber);
 
 	/**
 	 * Input string.
@@ -85,7 +85,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 *            the file number
 	 * @return the string
 	 */
-	String inputString(int fileNumber);
+	String inputString (int fileNumber);
 
 	/**
 	 * Input number.
@@ -94,7 +94,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 *            the file number
 	 * @return the float
 	 */
-	Float inputNumber(int fileNumber);
+	Float inputNumber (int fileNumber);
 
 	/**
 	 * Gets the char.
@@ -103,7 +103,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 *            the file number
 	 * @return the char
 	 */
-	char getChar(int fileNumber);
+	char getChar (int fileNumber);
 
 	/**
 	 * Save.
@@ -115,7 +115,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param secondary
 	 *            the secondary
 	 */
-	void save(String fileName, int device, int secondary);
+	void save (String fileName, int device, int secondary);
 
 	/**
 	 * Load.
@@ -127,7 +127,7 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param secondary
 	 *            the secondary
 	 */
-	void load(String fileName, int device, int secondary);
+	void load (String fileName, int device, int secondary);
 
 	/**
 	 * Verify.
@@ -139,6 +139,6 @@ public interface DeviceProvider extends PrintConsumer {
 	 * @param secondary
 	 *            the secondary
 	 */
-	void verify(String fileName, int device, int secondary);
+	void verify (String fileName, int device, int secondary);
 
 }

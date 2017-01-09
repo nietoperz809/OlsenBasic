@@ -26,21 +26,21 @@ import com.sixtyfour.resid.ISIDDefs.chip_model;
 
 public class Voice {
 
-	protected WaveformGenerator wave = new WaveformGenerator();
+	final WaveformGenerator wave = new WaveformGenerator();
 
-	protected EnvelopeGenerator envelope = new EnvelopeGenerator();
+	final EnvelopeGenerator envelope = new EnvelopeGenerator();
 
-	protected boolean muted;
+	private boolean muted;
 
 	/**
 	 * Waveform D/A zero level.
 	 */
-	protected int /* sound_sample */wave_zero;
+    private int /* sound_sample */wave_zero;
 
 	/**
 	 * Multiplying D/A DC offset.
 	 */
-	protected int /* sound_sample */voice_DC;
+    private int /* sound_sample */voice_DC;
 
 	// ----------------------------------------------------------------------------
 	// Inline functions.

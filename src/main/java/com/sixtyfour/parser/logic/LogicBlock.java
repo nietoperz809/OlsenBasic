@@ -6,7 +6,8 @@ import com.sixtyfour.system.Machine;
 /**
  * An interface for logic atoms.
  */
-public interface LogicBlock extends Atom {
+public interface LogicBlock extends Atom
+{
 
 	/**
 	 * Evaluates the block to boolean.
@@ -20,6 +21,6 @@ public interface LogicBlock extends Atom {
 	/**
 	 * Not. Negates the block's state.
 	 */
-	void not();
+	void not ();
 
 }

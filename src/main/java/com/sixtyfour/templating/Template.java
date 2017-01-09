@@ -1,11 +1,5 @@
 package com.sixtyfour.templating;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
 import com.sixtyfour.Assembler;
 import com.sixtyfour.Basic;
 import com.sixtyfour.elements.Variable;
@@ -13,6 +7,8 @@ import com.sixtyfour.parser.Line;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.Program;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.*;
 
 /**
  * A template. A template can be HTML (but doesn't have to) with BASIC V2 code

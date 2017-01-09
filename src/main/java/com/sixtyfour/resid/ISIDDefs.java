@@ -41,13 +41,13 @@ public interface ISIDDefs {
 	// typedef int sound_sample;
 	// typedef sound_sample fc_point[2];
 
-	public enum chip_model {
+	enum chip_model {
 		MOS6581, MOS8580
-	};
+	}
 
-	public enum sampling_method {
+    enum sampling_method {
 		SAMPLE_FAST, SAMPLE_INTERPOLATE, SAMPLE_RESAMPLE_INTERPOLATE, SAMPLE_RESAMPLE_FAST
-	};
+	}
 
-	public static final String resid_version_string = "0.15";
+	// --Commented out by Inspection (1/9/2017 7:19 AM):String resid_version_string = "0.15";
 }

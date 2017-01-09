@@ -87,7 +87,7 @@ public class ShellFrame
                     mainTextArea.append(s);
                     mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
                 }
-                catch (InterruptedException e)
+                catch (Exception e)
                 {
                     e.printStackTrace();
                 }
@@ -248,14 +248,14 @@ public class ShellFrame
         frame.setVisible(true);
         shellFrame.putString("COMMODORE BASIC V2\n" + ProgramStore.OK);
 
-        try  // increase GUI responsiveness
-        {
-            SwingUtilities.invokeAndWait(() -> Thread.currentThread().setPriority(Thread.MAX_PRIORITY));
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+//        try  // increase GUI responsiveness
+//        {
+//            SwingUtilities.invokeAndWait(() -> Thread.currentThread().setPriority(Thread.MAX_PRIORITY));
+//        }
+//        catch (Exception e)
+//        {
+//            e.printStackTrace();
+//        }
         SidRunner.start();
         shellFrame.commandLoop();
     }

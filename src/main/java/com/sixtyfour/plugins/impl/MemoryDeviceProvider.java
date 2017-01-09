@@ -1,22 +1,15 @@
 package com.sixtyfour.plugins.impl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import com.sixtyfour.plugins.*;
 
-import com.sixtyfour.plugins.DeviceProvider;
-import com.sixtyfour.plugins.FileMode;
-import com.sixtyfour.plugins.FileType;
-import com.sixtyfour.plugins.FileWrapper;
-import com.sixtyfour.plugins.OutputChannel;
-import com.sixtyfour.plugins.PrintConsumer;
+import java.util.*;
 
 /**
- * A simple implementation of a device provider that provides a virtual, volatile disk in memory.
+ * A simple implementation of a device provider that provides a virtual,
+ * volatile disk in memory.
  */
-public class MemoryDeviceProvider implements DeviceProvider {
+public class MemoryDeviceProvider implements DeviceProvider
+{
 
 	/** The number 2 file. */
 	private Map<Integer, FileWrapper> number2File = new HashMap<Integer, FileWrapper>();
@@ -310,6 +303,28 @@ public class MemoryDeviceProvider implements DeviceProvider {
 	public void verify(String fileName, int device, int secondary) {
 		// System.out.println(fileName + "/" + device + "/" + secondary);
 		// Do nothing...
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sixtyfour.plugins.PrintConsumer#systemPrint(int,
+	 * java.lang.String)
+	 */
+	@Override
+	public void systemPrint(int id, String txt) {
+		this.print(id, txt);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.sixtyfour.plugins.PrintConsumer#systemPrintln(int,
+	 * java.lang.String)
+	 */
+	@Override
+	public void systemPrintln(int id, String txt) {
+		this.println(id, txt);
 	}
 
 	/**

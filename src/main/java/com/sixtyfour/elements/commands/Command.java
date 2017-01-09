@@ -2,8 +2,8 @@ package com.sixtyfour.elements.commands;
 
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Term;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 
 /**
  * The interface for commands.
@@ -16,14 +16,14 @@ public interface Command extends Atom {
 	 * 
 	 * @return keep or don't keep
 	 */
-	boolean keepSpaces();
+	boolean keepSpaces ();
 
 	/**
 	 * Gets the name of the command.
 	 * 
 	 * @return the name
 	 */
-	String getName();
+	String getName ();
 
 	/**
 	 * Checks if some string matches this command's name.
@@ -32,7 +32,7 @@ public interface Command extends Atom {
 	 *            the command string
 	 * @return true, if it is this command
 	 */
-	boolean isCommand(String command);
+	boolean isCommand (String command);
 
 	/**
 	 * Clones a command with a given parameter string.
@@ -41,14 +41,14 @@ public interface Command extends Atom {
 	 *            the  parameter string
 	 * @return the command
 	 */
-	Command clone(String linePart);
+	Command clone (String linePart);
 
 	/**
 	 * Gets the term that represents this command's parameters.
 	 * 
 	 * @return the term
 	 */
-	Term getTerm();
+	Term getTerm ();
 
 	/**
 	 * Sets the term that represents this command's parameters.
@@ -76,7 +76,7 @@ public interface Command extends Atom {
 	 *            the current machine
 	 * @return an optional string that be used by the parser. Only very few commands make use of this, most return null.
 	 */
-	String parse(String linePart, int lineCnt, int lineNumber, int linePos, boolean lastPos, Machine machine);
+	String parse (String linePart, int lineCnt, int lineNumber, int linePos, boolean lastPos, Machine machine);
 
 	/**
 	 * Executes the command in the current machine's context.
@@ -85,10 +85,10 @@ public interface Command extends Atom {
 	 *            the current machine
 	 * @return a program counter instance that contains the current state after execution
 	 */
-	BasicProgramCounter execute(Machine machine);
+	BasicProgramCounter execute (Machine machine);
 
 	/**
 	 * Stops the execution of a command. Only application to commands like WAIT.
 	 */
-	void stopExecution();
+	void stopExecution ();
 }

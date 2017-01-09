@@ -8,7 +8,8 @@ import com.sixtyfour.system.Machine;
 /**
  * The logic operation of AND.
  */
-public class LogicAnd implements LogicOp {
+public class LogicAnd implements LogicOp
+{
 
 	/*
 	 * (non-Javadoc)

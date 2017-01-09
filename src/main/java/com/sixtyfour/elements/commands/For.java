@@ -4,14 +4,15 @@ import com.sixtyfour.elements.Type;
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.parser.Term;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
 
 /**
  * The FOR command.
  */
-public class For extends AbstractCommand {
+public class For extends AbstractCommand
+{
 
 	/** The var. */
 	private Variable var;

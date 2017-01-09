@@ -1,11 +1,5 @@
 package com.sixtyfour.parser;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import com.sixtyfour.elements.Constant;
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.elements.Variable;
@@ -18,6 +12,8 @@ import com.sixtyfour.parser.logic.LogicParser;
 import com.sixtyfour.parser.logic.LogicTerm;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.*;
 
 /**
  * The Parser. This class does the actual dirty work and parses the BASIC

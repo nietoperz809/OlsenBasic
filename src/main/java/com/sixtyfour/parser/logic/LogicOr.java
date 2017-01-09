@@ -8,7 +8,8 @@ import com.sixtyfour.system.Machine;
 /**
  * The logic operation of OR.
  */
-public class LogicOr implements LogicOp {
+public class LogicOr implements LogicOp
+{
 
 	/*
 	 * (non-Javadoc)

@@ -1,11 +1,5 @@
 package com.sixtyfour.system;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Stack;
-
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.commands.For;
@@ -14,17 +8,11 @@ import com.sixtyfour.elements.systemvars.Status;
 import com.sixtyfour.elements.systemvars.Time;
 import com.sixtyfour.elements.systemvars.TimeDate;
 import com.sixtyfour.parser.Operator;
-import com.sixtyfour.plugins.DeviceProvider;
-import com.sixtyfour.plugins.InputProvider;
-import com.sixtyfour.plugins.MemoryListener;
-import com.sixtyfour.plugins.OutputChannel;
-import com.sixtyfour.plugins.SystemCallListener;
-import com.sixtyfour.plugins.impl.ConsoleInputProvider;
-import com.sixtyfour.plugins.impl.ConsoleOutputChannel;
-import com.sixtyfour.plugins.impl.MemoryDeviceProvider;
-import com.sixtyfour.plugins.impl.NullMemoryListener;
-import com.sixtyfour.plugins.impl.NullSystemCallListener;
+import com.sixtyfour.plugins.*;
+import com.sixtyfour.plugins.impl.*;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.*;
 
 /**
  * The machine. In the context of this application, Machine is the closest that

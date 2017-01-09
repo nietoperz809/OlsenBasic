@@ -38,34 +38,34 @@ public class EnvelopeGenerator {
 
   public enum State {
     ATTACK, DECAY_SUSTAIN, RELEASE
-  };
+  }
 
-  protected int /* reg16 */rate_counter;
+    int /* reg16 */rate_counter;
 
-  protected int /* reg16 */rate_period;
+  int /* reg16 */rate_period;
 
-  protected int /* reg8 */exponential_counter;
+  int /* reg8 */exponential_counter;
 
-  protected int /* reg8 */exponential_counter_period;
+  int /* reg8 */exponential_counter_period;
 
-  protected int /* reg8 */envelope_counter;
+  int /* reg8 */envelope_counter;
 
-  protected boolean hold_zero;
+  boolean hold_zero;
 
-  protected int /* reg4 */attack;
+  int /* reg4 */attack;
 
-  protected int /* reg4 */decay;
+  int /* reg4 */decay;
 
-  protected int /* reg4 */sustain;
+  int /* reg4 */sustain;
 
-  protected int /* reg4 */release;
+  int /* reg4 */release;
 
-  protected int /* reg8 */gate;
+  int /* reg8 */gate;
 
   /**
    * ATTACK/DECAY_SUSTAIN/RELEASE
    */
-  protected State state;
+  State state;
 
   /**
    * Lookup table to convert from attack, decay, or release value to rate
@@ -119,7 +119,7 @@ public class EnvelopeGenerator {
    * cycles. The described method is thus sufficient for exact calculation of
    * the rate periods.
    */
-  protected static int /* reg16 */rate_counter_period[] = {
+  private static final int[] /* reg16 */rate_counter_period = {
     9, // 2ms*1.0MHz/256 = 7.81
     32, // 8ms*1.0MHz/256 = 31.25
     63, // 16ms*1.0MHz/256 = 62.50
@@ -183,7 +183,7 @@ public class EnvelopeGenerator {
    * the envelope counter are compared to the 4-bit sustain value. This has
    * been verified by sampling ENV3.
    */
-  protected static int /* reg8 */sustain_level[] = {
+  private static final int[] /* reg8 */sustain_level = {
     0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xaa,
     0xbb, 0xcc, 0xdd, 0xee, 0xff, };
 

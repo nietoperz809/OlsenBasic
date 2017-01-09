@@ -1,17 +1,17 @@
 package com.sixtyfour.elements.commands;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.parser.Term;
 import com.sixtyfour.plugins.OutputChannel;
-import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.BasicProgramCounter;
+import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The INPUT command.
@@ -139,7 +139,7 @@ public class Input extends MultiVariableCommand {
 						var.setValue(Integer.valueOf(input), pis);
 					}
 				} catch (NumberFormatException nfe) {
-					out.println(0, "?Redo from start");
+					out.systemPrintln(0, "?Redo from start");
 					queue.clear();
 					i = -1;
 				}
@@ -156,7 +156,7 @@ public class Input extends MultiVariableCommand {
 								Integer num = Integer.valueOf(input);
 								var.setValue(num);
 							} catch (NumberFormatException nfe) {
-								out.println(0, "?Redo from start");
+								out.systemPrintln(0, "?Redo from start");
 								queue.clear();
 								i = -1;
 							}
@@ -165,7 +165,7 @@ public class Input extends MultiVariableCommand {
 								Float num = Float.valueOf(input);
 								var.setValue(num);
 							} catch (NumberFormatException nfe) {
-								out.println(0, "?Redo from start");
+								out.systemPrintln(0, "?Redo from start");
 								queue.clear();
 								i = -1;
 							}

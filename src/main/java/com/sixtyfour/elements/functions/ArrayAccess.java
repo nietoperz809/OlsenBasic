@@ -1,13 +1,13 @@
 package com.sixtyfour.elements.functions;
 
-import java.util.List;
-
 import com.sixtyfour.elements.Type;
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.parser.Parser;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.List;
 
 /**
  * A virtual function (i.e. not part of the BASIC V2 specs) that is used internally

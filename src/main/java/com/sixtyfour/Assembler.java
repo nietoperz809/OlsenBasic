@@ -1,19 +1,15 @@
 package com.sixtyfour;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.sixtyfour.elements.mnemonics.Mnemonic;
-import com.sixtyfour.parser.assembly.AssemblyParser;
-import com.sixtyfour.parser.assembly.ConstantValue;
-import com.sixtyfour.parser.assembly.ConstantsContainer;
-import com.sixtyfour.parser.assembly.LabelAndCode;
-import com.sixtyfour.parser.assembly.LabelsContainer;
+import com.sixtyfour.parser.assembly.*;
 import com.sixtyfour.system.Cpu;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.system.Program;
 import com.sixtyfour.system.ProgramPart;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Assembler is for parsing/compiling and executing 6502 assembler programs. The
@@ -23,7 +19,8 @@ import com.sixtyfour.system.ProgramPart;
  * 
  * @author EgonOlsen
  */
-public class Assembler implements ProgramExecutor {
+public class Assembler implements ProgramExecutor
+{
 	private String[] code = null;
 	private int codeStart = -1;
 	private int start = 0;

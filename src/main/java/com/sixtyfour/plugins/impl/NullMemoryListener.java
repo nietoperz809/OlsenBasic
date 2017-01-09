@@ -5,7 +5,8 @@ import com.sixtyfour.plugins.MemoryListener;
 /**
  * Default implementation that does nothing.
  */
-public class NullMemoryListener implements MemoryListener {
+public class NullMemoryListener implements MemoryListener
+{
 
 	/*
 	 * (non-Javadoc)

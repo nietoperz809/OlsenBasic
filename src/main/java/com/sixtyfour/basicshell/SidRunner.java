@@ -9,15 +9,16 @@ import java.util.concurrent.Callable;
 /**
  * Created by Administrator on 1/8/2017.
  */
+@SuppressWarnings("InfiniteLoopStatement")
 public class SidRunner
 {
     private static AudioDriverSE audioDriver = null;
     private static SID sid = null;
-    static final int CPUFrq = 985248;
-    static final int SAMPLE_RATE = 22000;
-    static final int BUFFER_SIZE = 256;
-    static final byte[] buffer = new byte[BUFFER_SIZE * 2];
-    static int pos = 0;
+    private static final int CPUFrq = 985248;
+    private static final int SAMPLE_RATE = 22000;
+    private static final int BUFFER_SIZE = 256;
+    private static final byte[] buffer = new byte[BUFFER_SIZE * 2];
+    private static int pos = 0;
 
     static boolean start()
     {
@@ -26,23 +27,22 @@ public class SidRunner
         audioDriver = new AudioDriverSE();
         sid = new SID();
         audioDriver.init(SAMPLE_RATE, 22000);
-        audioDriver.setMasterVolume(100);
+        //audioDriver.setMasterVolume(100);
         sid.set_sampling_parameters (CPUFrq,
-                ISIDDefs.sampling_method.SAMPLE_FAST,
+                ISIDDefs.sampling_method.SAMPLE_RESAMPLE_INTERPOLATE, //.SAMPLE_INTERPOLATE, //SAMPLE_FAST,
                 SAMPLE_RATE,
                 -1,
                 0.97);
-        sid.set_chip_model(ISIDDefs.chip_model.MOS6581);
+        sid.set_chip_model(ISIDDefs.chip_model.MOS8580);
 
         ShellFrame.executor.submit(new Callable<Object>()
         {
-            int clocksPerSample = CPUFrq / SAMPLE_RATE;
-            int temp = (int) ((CPUFrq * 1000L) / SAMPLE_RATE);
-            int clocksPerSampleRest = temp - clocksPerSample*1000;
+            final int clocksPerSample = CPUFrq / SAMPLE_RATE;
+            final int temp = (int) ((CPUFrq * 1000L) / SAMPLE_RATE);
+            final int clocksPerSampleRest = temp - clocksPerSample*1000;
             long nextSample = 0;
             long lastCycles = 0;
             int nextRest = 0;
-            long time;
 
             public void execute (long cycles)
             {
@@ -67,18 +67,21 @@ public class SidRunner
                     audioDriver.write(buffer);
                     pos = 0;
                 }
-                time = nextSample;
             }
 
             @Override
             public Object call () throws Exception
             {
-                long cycles = 0;
+                long cycles = 1;
                 Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                 while (true)
                 {
-                    cycles += 29; //add;
+                    //long l1 = System.nanoTime();
                     execute (cycles);
+                    //Thread.yield();
+                    //l1 = (System.nanoTime()-l1)/10000+1;
+                    //System.out.println(l1);
+                    cycles += 33; //+= l1; //29; //add;
                 }
             }
         });
@@ -95,7 +98,7 @@ public class SidRunner
         sid.write(reg, val);
     }
 
-    static synchronized void clock()
+    private static synchronized void clock ()
     {
         sid.clock();
     }

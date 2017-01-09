@@ -1,17 +1,18 @@
 package com.sixtyfour.elements.systemvars;
 
-import java.util.Calendar;
-import java.util.Date;
-
 import com.sixtyfour.elements.Variable;
 import com.sixtyfour.system.Machine;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A system variable that represents the current time.
  * 
  * @author EgonOlsen
  */
-public class Time extends Variable {
+public class Time extends Variable
+{
 
 	/**
 	 * Instantiates a new time.

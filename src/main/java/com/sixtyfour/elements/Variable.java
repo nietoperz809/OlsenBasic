@@ -1,9 +1,5 @@
 package com.sixtyfour.elements;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import com.sixtyfour.elements.commands.Command;
 import com.sixtyfour.elements.commands.CommandList;
 import com.sixtyfour.elements.functions.Function;
@@ -11,6 +7,10 @@ import com.sixtyfour.elements.functions.FunctionList;
 import com.sixtyfour.parser.Atom;
 import com.sixtyfour.system.Machine;
 import com.sixtyfour.util.VarUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * A variable. This can either be a simple variable or an array.

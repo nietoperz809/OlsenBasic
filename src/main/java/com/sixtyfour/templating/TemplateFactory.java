@@ -1,10 +1,10 @@
 package com.sixtyfour.templating;
 
+import com.sixtyfour.Loader;
+
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-
-import com.sixtyfour.Loader;
 
 /**
  * A factory for creating Template objects. A template isn't thread-safe, i.e. 

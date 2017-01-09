@@ -22,8 +22,8 @@
  */
 package com.sixtyfour.resid;
 
-public interface IWave6581 {
-	static int /* reg8 */wave6581__ST[] = Util.unpack(new int[] {
+interface IWave6581 {
+	int /* reg8 */wave6581__ST[] = Util.unpack(new int[] {
 			/* 0x000: */0x0800,
 			/* 0x008: */0x0800,
 			/* 0x010: */0x0800,
@@ -538,7 +538,7 @@ public interface IWave6581 {
 			/* 0xff8: */0x3e, 0x3e, 0x3f, 0x3f, 0x7f, 0x7f, 0x7f, 0x7f,}
 	);
 
-	static int /* reg8 */wave6581_P_T[] = Util.unpack(new int[]{
+	int /* reg8 */wave6581_P_T[] = Util.unpack(new int[]{
 			/* 0x000: */0x0800,
 			/* 0x008: */0x0800,
 			/* 0x010: */0x0800,
@@ -1052,7 +1052,7 @@ public interface IWave6581 {
 			/* 0xff0: */0x0800,
 			/* 0xff8: */0x0800});
 
-	static int /* reg8 */wave6581_PS_[] = Util.unpack(new int[] {
+	int /* reg8 */wave6581_PS_[] = Util.unpack(new int[] {
 			/* 0x000: */0x0800,
 			/* 0x008: */0x0800,
 			/* 0x010: */0x0800,
@@ -1566,7 +1566,7 @@ public interface IWave6581 {
 			/* 0xff0: */0x70, 0x7c, 0x7c, 0x7f, 0x7c, 0x7f, 0x7f, 0x7f,
 			/* 0xff8: */0x7e, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f, 0x7f});
 
-	static int /* reg8 */wave6581_PST[] = Util.unpack(new int[] {
+	int /* reg8 */wave6581_PST[] = Util.unpack(new int[] {
 			/* 0x000: */0x0800,
 			/* 0x008: */0x0800,
 			/* 0x010: */0x0800,

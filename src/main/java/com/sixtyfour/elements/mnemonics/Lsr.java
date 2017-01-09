@@ -3,7 +3,8 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Lsr.
  */
-public class Lsr extends AbstractMnemonic {
+public class Lsr extends AbstractMnemonic
+{
 	
 	/**
    * Instantiates a new lsr.

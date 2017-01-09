@@ -130,94 +130,102 @@ public class Filter {
 	/**
 	 * #define SPLINE_BRUTE_FORCE false
 	 */
-	public static final boolean SPLINE_BRUTE_FORCE = false;
+	private static final boolean SPLINE_BRUTE_FORCE = false;
 
 	/**
 	 * Filter enabled.
 	 */
-	protected boolean enabled;
+    private boolean enabled;
 
 	/**
 	 * Filter cutoff frequency.
 	 */
-	protected int /* reg12 */fc;
+    int /* reg12 */fc;
 
 	/**
 	 * Filter resonance.
 	 */
-	protected int /* reg8 */res;
+    int /* reg8 */res;
 
 	/**
 	 * Selects which inputs to route through filter.
 	 */
-	protected int /* reg8 */filt;
+    int /* reg8 */filt;
 
 	/**
 	 * Switch voice 3 off.
 	 */
-	protected int /* reg8 */voice3off;
+    int /* reg8 */voice3off;
 
 	/**
 	 * Highpass, bandpass, and lowpass filter modes.
 	 */
-	protected int /* reg8 */hp_bp_lp;
+    int /* reg8 */hp_bp_lp;
 
 	/**
 	 * Output master volume.
 	 */
-	protected int /* reg4 */vol;
+    int /* reg4 */vol;
 
 	/**
 	 * Mixer DC offset.
 	 */
-	protected int /* sound_sample */mixer_DC;
+    private int /* sound_sample */mixer_DC;
 
 	/**
 	 * State of filter. highpass
 	 */
-	protected int /* sound_sample */Vhp;
+    private int /* sound_sample */Vhp;
 
 	/**
 	 * State of filter. bandpass
 	 */
-	protected int /* sound_sample */Vbp;
+    private int /* sound_sample */Vbp;
 
 	/**
 	 * State of filter. lowpass
 	 */
-	protected int /* sound_sample */Vlp;
+    private int /* sound_sample */Vlp;
 
 	/**
 	 * State of filter. not filtered
 	 */
-	protected int /* sound_sample */Vnf;
+    private int /* sound_sample */Vnf;
 
 	/**
 	 * when to begin, how fast it grows
 	 */
-	int /* sound_sample */DLthreshold, DLsteepness;
-	int /* sound_sample */DHthreshold, DHsteepness;
-	int /* sound_sample */DLlp, DLbp, DLhp; // coefficients, 256 = 1.0
-	int /* sound_sample */DHlp, DHbp, DHhp;
+    private int /* sound_sample */DLthreshold;
+    private int DLsteepness;
+	private int /* sound_sample */DHthreshold;
+    private int DHsteepness;
+	private int /* sound_sample */DLlp;
+    private int DLbp;
+    private int DLhp; // coefficients, 256 = 1.0
+	private int /* sound_sample */DHlp;
+    private int DHbp;
+    private int DHhp;
 
 	/**
 	 * Cutoff frequency, resonance.
 	 */
-	protected int /* sound_sample */w0, w0_ceil_1, w0_ceil_dt;
+    private int /* sound_sample */w0;
+    private int w0_ceil_1;
+    private int w0_ceil_dt;
 
-	protected int /* sound_sample */_1024_div_Q;
-
-	/**
-	 * Cutoff frequency tables. FC is an 11 bit register.
-	 */
-	protected int /* sound_sample */f0_6581[] = new int[2048];
+	private int /* sound_sample */_1024_div_Q;
 
 	/**
 	 * Cutoff frequency tables. FC is an 11 bit register.
 	 */
-	protected int /* sound_sample */f0_8580[] = new int[2048];
+    private final int[] /* sound_sample */f0_6581 = new int[2048];
 
-	protected int /* sound_sample */f0[];
+	/**
+	 * Cutoff frequency tables. FC is an 11 bit register.
+	 */
+    private final int[] /* sound_sample */f0_8580 = new int[2048];
+
+	private int[] /* sound_sample */f0;
 
 	/**
 	 * 
@@ -243,7 +251,7 @@ public class Filter {
 	 * NB! Cutoff frequency characteristics may vary, we have modeled two
 	 * particular Commodore 64s.
 	 */
-	protected static int[] /* fc_point */f0_points_6581[] = {
+	private static final int[][] /* fc_point */f0_points_6581 = {
 	// -----FC----f-------FCHI-FCLO
 			// ----------------------------
 			{ 0, 220 }, // 0x00 - repeated end point
@@ -303,7 +311,7 @@ public class Filter {
 	 * NB! Cutoff frequency characteristics may vary, we have modeled two
 	 * particular Commodore 64s.
 	 */
-	protected static int[] /* fc_point */f0_points_8580[] = {
+	private static final int[][] /* fc_point */f0_points_8580 = {
 	// -----FC----f-------FCHI-FCLO
 			// ----------------------------
 			{ 0, 0 }, // 0x00 - repeated end point
@@ -327,9 +335,9 @@ public class Filter {
 			{ 2047, 12500 } // 0xff 0x07 - repeated end point
 	};
 
-	protected int[] /* fc_point */f0_points[];
+	private int[][] /* fc_point */f0_points;
 
-	protected int f0_count;
+	private int f0_count;
 
 	// ----------------------------------------------------------------------------
 	// Inline functions.
@@ -914,7 +922,7 @@ public class Filter {
 	}
 
 	// Set filter cutoff frequency.
-	protected void set_w0() {
+    private void set_w0 () {
 		final double pi = 3.1415926535897932385;
 
 		// Multiply with 1.048576 to facilitate division by 1 000 000 by right-
@@ -941,7 +949,7 @@ public class Filter {
 	/**
 	 * Set filter resonance.
 	 */
-	protected void set_Q() {
+    private void set_Q () {
 		// Q is controlled linearly by res. Q has approximate range [0.707,
 		// 1.7].
 		// As resonance is increased, the filter must be clocked more often to
@@ -1100,8 +1108,8 @@ public class Filter {
 	 * @param k2
 	 * @param coeff
 	 */
-	protected void cubic_coefficients(double x1, double y1, double x2,
-			double y2, double k1, double k2, Coefficients coeff) {
+    private void cubic_coefficients (double x1, double y1, double x2,
+                                     double y2, double k1, double k2, Coefficients coeff) {
 		double dx = x2 - x1, dy = y2 - y1;
 
 		coeff.a = ((k1 + k2) - 2 * dy / dx) / (dx * dx);
@@ -1122,15 +1130,16 @@ public class Filter {
 	 * @param plotter
 	 * @param res
 	 */
-	protected void interpolate_brute_force(double x1, double y1, double x2,
-			double y2, double k1, double k2, PointPlotter plotter, double res) {
+    private void interpolate_brute_force (double x1, double y1, double x2,
+                                          double y2, double k1, double k2, PointPlotter plotter, double res) {
 		Coefficients coeff = new Coefficients();
 		cubic_coefficients(x1, y1, x2, y2, k1, k2, coeff);
 
 		// Calculate each point.
-		for (double x = x1; x <= x2; x += res) {
+		for (double x = x1; x <= x2; x += res)
+		{
 			double y = ((coeff.a * x + coeff.b) * x + coeff.c) * x + coeff.d;
-			plotter.plot(x, y);
+			plotter.plot((int)x, (int)y);
 		}
 	}
 
@@ -1146,9 +1155,9 @@ public class Filter {
 	 * @param plotter
 	 * @param res
 	 */
-	protected void interpolate_forward_difference(double x1, double y1,
-			double x2, double y2, double k1, double k2, PointPlotter plotter,
-			double res) {
+    private void interpolate_forward_difference (double x1, double y1,
+                                                 double x2, double y2, double k1, double k2, PointPlotter plotter,
+                                                 double res) {
 		Coefficients coeff = new Coefficients();
 		cubic_coefficients(x1, y1, x2, y2, k1, k2, coeff);
 
@@ -1159,19 +1168,20 @@ public class Filter {
 		double d3y = 6 * coeff.a * res * res * res;
 
 		// Calculate each point.
-		for (double x = x1; x <= x2; x += res) {
-			plotter.plot(x, y);
+		for (double x = x1; x <= x2; x += res)
+		{
+			plotter.plot((int)x, (int)y);
 			y += dy;
 			dy += d2y;
 			d2y += d3y;
 		}
 	}
 
-	protected double x(int[] /* fc_point */f0_base[], int p) {
+	private double x (int[] /* fc_point */f0_base[], int p) {
 		return (f0_base[p])[0];
 	}
 
-	protected double y(int[] /* fc_point */f0_base[], int p) {
+	private double y (int[] /* fc_point */f0_base[], int p) {
 		return (f0_base[p])[1];
 	}
 
@@ -1188,8 +1198,8 @@ public class Filter {
 	 * @param plotter
 	 * @param res
 	 */
-	public void interpolate(int[] /* fc_point */f0_base[], int p0, int pn,
-			PointPlotter plotter, double res) {
+    private void interpolate (int[] /* fc_point */f0_base[], int p0, int pn,
+                              PointPlotter plotter, double res) {
 		double k1, k2;
 
 		// Set up points for first curve segment.

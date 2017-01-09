@@ -7,14 +7,17 @@ import java.util.concurrent.Future;
 /**
  * Proxy class to instantiate an run the BASIC system
  */
-public class Runner implements Runnable
+public class BasicRunner implements Runnable
 {
-    private final Basic olsenBasic;
-    private boolean running = false;
+    private Basic olsenBasic;
+    private static boolean running = false;
 
-    public Runner (String[] program, ShellFrame shellFrame)
+    public BasicRunner (String[] program, ShellFrame shellFrame)
     {
-        this.olsenBasic = new Basic(program);
+        if (running)
+            return;
+        olsenBasic = new Basic(program);
+        olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
         olsenBasic.setOutputChannel(new ShellOutputChannel(shellFrame));
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));
     }
@@ -30,6 +33,7 @@ public class Runner implements Runnable
         try
         {
             Basic b = new Basic("0 " + in.toUpperCase());
+            b.getMachine().setMemoryListener(new PeekPokeHandler(sf));
             b.compile();
             b.setOutputChannel(new ShellOutputChannel(sf));
             b.setInputProvider(new ShellInputProvider(sf));
@@ -48,6 +52,8 @@ public class Runner implements Runnable
      */
     public void start (boolean synchronous)
     {
+        if (running)
+            return;
         Future f = ShellFrame.executor.submit (this);
         if (!synchronous)
             return;

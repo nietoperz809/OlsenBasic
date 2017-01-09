@@ -26,7 +26,7 @@ public class ShellFrame
     private JButton stopButton;
     private JButton clsButton;
     private JButton runButton;
-    private Runner runner = null;
+    private BasicRunner basicRunner = null;
     private final ProgramStore store = new ProgramStore();
     private final int[] lastStrLen = new int[2]; // Length of last output chunk
     private int rowNum;  // line number set by caret listener
@@ -95,14 +95,19 @@ public class ShellFrame
         });
         stopButton.addActionListener(e ->
         {
-            if (runner != null)
+            if (basicRunner != null)
             {
-                Basic i = runner.getOlsenBasic();
+                Basic i = basicRunner.getOlsenBasic();
                 i.runStop();
             }
         });
         runButton.addActionListener(e -> run(false));
         clsButton.addActionListener(e -> cls());
+    }
+
+    public void setBkColor (Color c)
+    {
+        mainTextArea.setBackground(c);
     }
 
     /**
@@ -135,7 +140,7 @@ public class ShellFrame
         caretLabel.setForeground(Color.pink);
         bottomPanel.add(caretLabel);
         mainTextArea = new ShellTextComponent(this);
-        //mainTextArea.setLineWrap(true);
+        mainTextArea.setLineWrap(true);
         final JScrollPane scrollPane1 = new JScrollPane(mainTextArea);
         mainPanel.add(scrollPane1, BorderLayout.CENTER);
         mainPanel.setPreferredSize(new Dimension(600, 600));
@@ -217,8 +222,8 @@ public class ShellFrame
 
     private void run (boolean sync)
     {
-        runner = new Runner(store.toArray(), this);
-        runner.start(sync);
+        basicRunner = new BasicRunner(store.toArray(), this);
+        basicRunner.start(sync);
     }
 
     /**
@@ -251,6 +256,7 @@ public class ShellFrame
         {
             e.printStackTrace();
         }
+        SidRunner.start();
         shellFrame.commandLoop();
     }
 
@@ -270,6 +276,18 @@ public class ShellFrame
         catch (InterruptedException e)
         {
             e.printStackTrace();
+        }
+        if (rowNum > 4000 || colNum > 2000)
+        {
+            try
+            {
+                int end = mainTextArea.getLineEndOffset(0);
+                mainTextArea.getDocument().remove(0, end);
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -322,7 +340,7 @@ public class ShellFrame
                 catch (NumberFormatException unused)
                 {
                     //putString(ProgramStore.ERROR);
-                    putString(Runner.runLine(s, this));
+                    putString(BasicRunner.runLine(s, this));
                 }
             }
         }

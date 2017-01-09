@@ -4,6 +4,8 @@ import com.sixtyfour.Basic;
 
 import javax.swing.*;
 import javax.swing.event.CaretEvent;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
 import java.awt.event.*;
@@ -26,6 +28,7 @@ public class ShellFrame
     private JButton stopButton;
     private JButton clsButton;
     private JButton runButton;
+    private JSlider fontSlider;
     private BasicRunner basicRunner = null;
     private final ProgramStore store = new ProgramStore();
     private final int[] lastStrLen = new int[2]; // Length of last output chunk
@@ -42,6 +45,22 @@ public class ShellFrame
     private ShellFrame ()
     {
         setupUI();
+        fontSlider.addChangeListener(new ChangeListener()
+        {
+            @Override
+            public void stateChanged (ChangeEvent e)
+            {
+                JSlider source = (JSlider)e.getSource();
+                if (!source.getValueIsAdjusting())
+                {
+                    int fps = (int) source.getValue();
+                    //System.out.println(fps);
+                    Font f = mainTextArea.getFont();
+                    f = f.deriveFont((float)fps);
+                    mainTextArea.setFont(f);
+                }
+            }
+        });
         mainTextArea.addCaretListener((CaretEvent e) ->
         {
             JTextArea editArea = (JTextArea) e.getSource();
@@ -135,6 +154,9 @@ public class ShellFrame
         runButton.setPreferredSize(new Dimension(82, 30));
         runButton.setText("RUN");
         bottomPanel.add(runButton);
+        fontSlider = new JSlider();
+        fontSlider.setPreferredSize(new Dimension(200, 30));
+        bottomPanel.add(fontSlider);
         caretLabel = new JLabel();
         caretLabel.setPreferredSize(new Dimension(82, 30));
         caretLabel.setForeground(Color.pink);
@@ -246,7 +268,7 @@ public class ShellFrame
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
-        shellFrame.putString("COMMODORE BASIC V2\n" + ProgramStore.OK);
+        shellFrame.putString("     *** COMMODORE BASIC V2 ***\n" + ProgramStore.OK);
 
 //        try  // increase GUI responsiveness
 //        {

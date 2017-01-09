@@ -100,10 +100,16 @@ public class ShellFrame
         {
             while (true)
             {
+                Thread.yield();
                 try
                 {
                     String s = toTextArea.take();
                     mainTextArea.append(s);
+                    if (rowNum > 4000 || colNum > 2000)
+                    {
+                        int end = mainTextArea.getLineEndOffset(0);
+                        mainTextArea.getDocument().remove(0, end);
+                    }
                     mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
                 }
                 catch (Exception e)
@@ -245,7 +251,12 @@ public class ShellFrame
     private void run (boolean sync)
     {
         basicRunner = new BasicRunner(store.toArray(), this);
+        mainTextArea.setEditable(false);
+        runButton.setEnabled(false);
         basicRunner.start(sync);
+        mainTextArea.setEditable(true);
+        runButton.setEnabled(true);
+        SwingUtilities.invokeLater(() -> SidRunner.reset());
     }
 
     /**
@@ -269,15 +280,6 @@ public class ShellFrame
         frame.pack();
         frame.setVisible(true);
         shellFrame.putString("     *** COMMODORE BASIC V2 ***\n" + ProgramStore.OK);
-
-//        try  // increase GUI responsiveness
-//        {
-//            SwingUtilities.invokeAndWait(() -> Thread.currentThread().setPriority(Thread.MAX_PRIORITY));
-//        }
-//        catch (Exception e)
-//        {
-//            e.printStackTrace();
-//        }
         SidRunner.start();
         shellFrame.commandLoop();
     }
@@ -298,18 +300,6 @@ public class ShellFrame
         catch (InterruptedException e)
         {
             e.printStackTrace();
-        }
-        if (rowNum > 4000 || colNum > 2000)
-        {
-            try
-            {
-                int end = mainTextArea.getLineEndOffset(0);
-                mainTextArea.getDocument().remove(0, end);
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
         }
     }
 

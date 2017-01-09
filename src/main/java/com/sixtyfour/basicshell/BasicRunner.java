@@ -17,6 +17,7 @@ public class BasicRunner implements Runnable
         if (running)
             return;
         olsenBasic = new Basic(program);
+        olsenBasic.setFixedDelay(1);
         olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
         olsenBasic.setOutputChannel(new ShellOutputChannel(shellFrame));
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));

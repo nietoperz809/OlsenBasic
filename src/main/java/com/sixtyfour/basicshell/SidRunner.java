@@ -7,7 +7,7 @@ import com.sixtyfour.resid.SID;
 import java.util.concurrent.Callable;
 
 /**
- * Created by Administrator on 1/8/2017.
+ * Run the sound chip emulation
  */
 @SuppressWarnings("InfiniteLoopStatement")
 public class SidRunner
@@ -20,20 +20,32 @@ public class SidRunner
     private static final byte[] buffer = new byte[BUFFER_SIZE * 2];
     private static int pos = 0;
 
-    static boolean start()
+    public static void reset()
     {
-        if (sid != null)
-            return false;
-        audioDriver = new AudioDriverSE();
+        setupSID();
+    }
+
+    private static void setupSID()
+    {
         sid = new SID();
-        audioDriver.init(SAMPLE_RATE, 22000);
-        //audioDriver.setMasterVolume(100);
         sid.set_sampling_parameters (CPUFrq,
                 ISIDDefs.sampling_method.SAMPLE_RESAMPLE_INTERPOLATE, //.SAMPLE_INTERPOLATE, //SAMPLE_FAST,
                 SAMPLE_RATE,
                 -1,
                 0.97);
         sid.set_chip_model(ISIDDefs.chip_model.MOS8580);
+    }
+    /**
+     * Main function that inits and starts the SID
+     * @return false if SID is already running
+     */
+    static boolean start()
+    {
+        if (sid != null)
+            return false;
+        setupSID();
+        audioDriver = new AudioDriverSE();
+        audioDriver.init(SAMPLE_RATE, 22000);
 
         ShellFrame.executor.submit(new Callable<Object>()
         {
@@ -73,14 +85,10 @@ public class SidRunner
             public Object call () throws Exception
             {
                 long cycles = 1;
-                Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+                //Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                 while (true)
                 {
-                    //long l1 = System.nanoTime();
                     execute (cycles);
-                    //Thread.yield();
-                    //l1 = (System.nanoTime()-l1)/10000+1;
-                    //System.out.println(l1);
                     cycles += 33; //+= l1; //29; //add;
                 }
             }

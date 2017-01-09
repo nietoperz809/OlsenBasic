@@ -43,24 +43,26 @@ public class BlockCaret extends DefaultCaret
     {
         if (isVisible())
         {
+            JTextComponent component = getComponent();
+            Rectangle r = null;
             try
             {
-                JTextComponent component = getComponent();
-                Rectangle r = component.getUI().modelToView(component, getDot());
-                Color c = g.getColor();
-                g.setColor(component.getBackground());
-                g.setXORMode(component.getCaretColor());
-                r.setBounds(r.x, r.y,
-                        g.getFontMetrics().charWidth('w'),
-                        g.getFontMetrics().getHeight());
-                g.fillRect(r.x, r.y, r.width, r.height);
-                g.setPaintMode();
-                g.setColor(c);
+                r = component.getUI().modelToView(component, getDot());
             }
             catch (BadLocationException e)
             {
-                e.printStackTrace();
+                //e.printStackTrace();
+                return;
             }
+            Color c = g.getColor();
+            g.setColor(component.getBackground());
+            g.setXORMode(component.getCaretColor());
+            r.setBounds(r.x, r.y,
+                    g.getFontMetrics().charWidth('w'),
+                    g.getFontMetrics().getHeight());
+            g.fillRect(r.x, r.y, r.width, r.height);
+            g.setPaintMode();
+            g.setColor(c);
         }
     }
 }

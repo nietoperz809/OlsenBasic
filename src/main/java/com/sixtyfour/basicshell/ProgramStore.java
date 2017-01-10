@@ -98,7 +98,8 @@ public class ProgramStore
         }
         catch (IOException e)
         {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("load fail");
             return ERROR;
         }
         return OK;

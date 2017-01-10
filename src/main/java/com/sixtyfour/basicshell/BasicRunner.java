@@ -2,6 +2,7 @@ package com.sixtyfour.basicshell;
 
 import com.sixtyfour.Basic;
 
+import javax.swing.*;
 import java.util.concurrent.Future;
 
 /**
@@ -9,15 +10,19 @@ import java.util.concurrent.Future;
  */
 public class BasicRunner implements Runnable
 {
-    private Basic olsenBasic;
     private static boolean running = false;
+    private Basic olsenBasic;
+    private ShellFrame shellFrame;
 
     public BasicRunner (String[] program, ShellFrame shellFrame)
     {
         if (running)
+        {
             return;
+        }
+        this.shellFrame = shellFrame;
         olsenBasic = new Basic(program);
-        olsenBasic.setFixedDelay(1);
+        //olsenBasic.setFixedDelay(1);
         olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
         olsenBasic.setOutputChannel(new ShellOutputChannel(shellFrame));
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));
@@ -25,6 +30,7 @@ public class BasicRunner implements Runnable
 
     /**
      * Compile an run a single line
+     *
      * @param in the BASIC line
      * @param sf reference to shell main window
      * @return textual representation of success/error
@@ -49,15 +55,20 @@ public class BasicRunner implements Runnable
 
     /**
      * Start BASIC task
+     *
      * @param synchronous if true the caller is blocked
      */
     public void start (boolean synchronous)
     {
         if (running)
+        {
             return;
-        Future f = ShellFrame.executor.submit (this);
+        }
+        Future f = ShellFrame.executor.submit(this);
         if (!synchronous)
+        {
             return;
+        }
         try
         {
             f.get();
@@ -68,7 +79,7 @@ public class BasicRunner implements Runnable
         }
     }
 
-    public boolean isRunning()
+    public boolean isRunning ()
     {
         return running;
     }
@@ -79,12 +90,18 @@ public class BasicRunner implements Runnable
     }
 
     @Override
-    public void run()
+    public void run ()
     {
         running = true;
         try
         {
+            SwingUtilities.invokeAndWait(() ->
+                    shellFrame.runButton.setEnabled(false));
             olsenBasic.run();
+            SwingUtilities.invokeAndWait(() ->
+                    shellFrame.runButton.setEnabled(true)
+            );
+            SidRunner.reset();
         }
         catch (Exception ex)
         {

@@ -19,10 +19,11 @@ public class SidRunner
     private static final int BUFFER_SIZE = 256;
     private static final byte[] buffer = new byte[BUFFER_SIZE * 2];
     private static int pos = 0;
+    private static boolean reset = false;
 
     public static void reset()
     {
-        setupSID();
+        reset = true;
     }
 
     private static void setupSID()
@@ -84,12 +85,19 @@ public class SidRunner
             @Override
             public Object call () throws Exception
             {
+                Thread.currentThread().setName("SIDRunner");
                 long cycles = 1;
-                //Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+               // Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                 while (true)
                 {
                     execute (cycles);
                     cycles += 33; //+= l1; //29; //add;
+                    if (reset)
+                    {
+                        setupSID();
+                        reset = false;
+                        System.out.println("SID ready");
+                    }
                 }
             }
         });

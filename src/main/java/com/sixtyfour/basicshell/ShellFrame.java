@@ -8,7 +8,10 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.text.BadLocationException;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.ExecutorService;
@@ -23,15 +26,15 @@ public class ShellFrame
     static final ExecutorService executor = Executors.newFixedThreadPool(10);
     private final ArrayBlockingQueue<String> fromTextArea = new ArrayBlockingQueue<>(20);
     private final ArrayBlockingQueue<String> toTextArea = new ArrayBlockingQueue<>(20);
+    private final ProgramStore store = new ProgramStore();
+    private final int[] lastStrLen = new int[2]; // Length of last output chunk
+    JButton runButton;
     private JTextArea mainTextArea;
     private JPanel mainPanel;
     private JButton stopButton;
     private JButton clsButton;
-    private JButton runButton;
     private JSlider fontSlider;
     private BasicRunner basicRunner = null;
-    private final ProgramStore store = new ProgramStore();
-    private final int[] lastStrLen = new int[2]; // Length of last output chunk
     private int rowNum;  // line number set by caret listener
     private int colNum;   // column number "
     private JLabel caretLabel;
@@ -50,13 +53,13 @@ public class ShellFrame
             @Override
             public void stateChanged (ChangeEvent e)
             {
-                JSlider source = (JSlider)e.getSource();
+                JSlider source = (JSlider) e.getSource();
                 if (!source.getValueIsAdjusting())
                 {
                     int fps = (int) source.getValue();
                     //System.out.println(fps);
                     Font f = mainTextArea.getFont();
-                    f = f.deriveFont((float)fps);
+                    f = f.deriveFont((float) fps);
                     mainTextArea.setFont(f);
                 }
             }
@@ -100,17 +103,18 @@ public class ShellFrame
         {
             while (true)
             {
-                Thread.yield();
+                //Thread.yield();
                 try
                 {
                     String s = toTextArea.take();
                     mainTextArea.append(s);
+                    //mainTextArea.validate();
                     if (rowNum > 4000 || colNum > 2000)
                     {
                         int end = mainTextArea.getLineEndOffset(0);
                         mainTextArea.getDocument().remove(0, end);
                     }
-                    mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
+                    //mainTextArea.setCaretPosition(mainTextArea.getDocument().getLength());
                 }
                 catch (Exception e)
                 {
@@ -128,11 +132,6 @@ public class ShellFrame
         });
         runButton.addActionListener(e -> run(false));
         clsButton.addActionListener(e -> cls());
-    }
-
-    public void setBkColor (Color c)
-    {
-        mainTextArea.setBackground(c);
     }
 
     /**
@@ -175,59 +174,6 @@ public class ShellFrame
         createPopupMenu();
     }
 
-    private void createPopupMenu()
-    {
-        JPopupMenu popup;
-        JMenuItem menuItem;
-        popup = new JPopupMenu();
-        menuItem = new JMenuItem("Background Color");
-        menuItem.addActionListener(e ->
-        {
-            Color c = mainTextArea.getBackground();
-            Color nc = JColorChooser.showDialog(null, "Choose background color", c);
-            if (nc == null)
-                return;
-            mainTextArea.setBackground(nc);
-            Settings.saveBackgroundColor(nc);
-        });
-        popup.add(menuItem);
-        menuItem = new JMenuItem("Foreground Color");
-        menuItem.addActionListener(e ->
-        {
-            Color c = mainTextArea.getForeground();
-            Color nc = JColorChooser.showDialog(null, "Choose text color", c);
-            if (nc == null)
-                return;
-            mainTextArea.setForeground(nc);
-            Settings.saveForegroundColor(nc);
-        });
-        popup.add(menuItem);
-
-        // Add listener to components that can bring up popup menus.
-        mainTextArea.addMouseListener(new MouseAdapter()
-        {
-            private void maybeShowPopup(MouseEvent e)
-            {
-                if (e.isPopupTrigger())
-                {
-                    popup.show(e.getComponent(), e.getX(), e.getY());
-                }
-            }
-
-            @Override
-            public void mousePressed(MouseEvent e)
-            {
-                maybeShowPopup(e);
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e)
-            {
-                maybeShowPopup(e);
-            }
-        });
-    }
-
     /**
      * Return line at specified position
      *
@@ -251,12 +197,11 @@ public class ShellFrame
     private void run (boolean sync)
     {
         basicRunner = new BasicRunner(store.toArray(), this);
-        mainTextArea.setEditable(false);
-        runButton.setEnabled(false);
+        //mainTextArea.setEditable(false);
+        //runButton.setEnabled(false);
         basicRunner.start(sync);
-        mainTextArea.setEditable(true);
-        runButton.setEnabled(true);
-        SwingUtilities.invokeLater(() -> SidRunner.reset());
+        //mainTextArea.setEditable(true);
+        //runButton.setEnabled(true);
     }
 
     /**
@@ -264,7 +209,67 @@ public class ShellFrame
      */
     private void cls ()
     {
-        mainTextArea.setText("");
+        synchronized (mainTextArea)
+        {
+            mainTextArea.setText("");
+        }
+    }
+
+    private void createPopupMenu ()
+    {
+        JPopupMenu popup;
+        JMenuItem menuItem;
+        popup = new JPopupMenu();
+        menuItem = new JMenuItem("Background Color");
+        menuItem.addActionListener(e ->
+        {
+            Color c = mainTextArea.getBackground();
+            Color nc = JColorChooser.showDialog(null, "Choose background color", c);
+            if (nc == null)
+            {
+                return;
+            }
+            mainTextArea.setBackground(nc);
+            Settings.saveBackgroundColor(nc);
+        });
+        popup.add(menuItem);
+        menuItem = new JMenuItem("Foreground Color");
+        menuItem.addActionListener(e ->
+        {
+            Color c = mainTextArea.getForeground();
+            Color nc = JColorChooser.showDialog(null, "Choose text color", c);
+            if (nc == null)
+            {
+                return;
+            }
+            mainTextArea.setForeground(nc);
+            Settings.saveForegroundColor(nc);
+        });
+        popup.add(menuItem);
+
+        // Add listener to components that can bring up popup menus.
+        mainTextArea.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mousePressed (MouseEvent e)
+            {
+                maybeShowPopup(e);
+            }
+
+            private void maybeShowPopup (MouseEvent e)
+            {
+                if (e.isPopupTrigger())
+                {
+                    popup.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+
+            @Override
+            public void mouseReleased (MouseEvent e)
+            {
+                maybeShowPopup(e);
+            }
+        });
     }
 
     /**
@@ -281,6 +286,16 @@ public class ShellFrame
         frame.setVisible(true);
         shellFrame.putString("     *** COMMODORE BASIC V2 ***\n" + ProgramStore.OK);
         SidRunner.start();
+
+        SwingUtilities.invokeLater(new Runnable()
+        {
+            @Override
+            public void run ()
+            {
+                Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+            }
+        });
+
         shellFrame.commandLoop();
     }
 
@@ -310,16 +325,19 @@ public class ShellFrame
     {
         while (true)
         {
+            System.out.println("cmdloop tick");
             String s = getString();
             String[] split = s.split(" ");
             s = s.toLowerCase();
             if (s.equals("list"))
             {
                 putString(store.toString());
+                putString(ProgramStore.OK);
             }
             else if (s.equals("new"))
             {
                 store.clear();
+                putString(ProgramStore.OK);
             }
             else if (s.equals("cls"))
             {
@@ -332,6 +350,7 @@ public class ShellFrame
             else if (s.equals("dir"))
             {
                 dir();
+                putString(ProgramStore.OK);
             }
             else if (split[0].toLowerCase().equals("save"))
             {
@@ -392,6 +411,11 @@ public class ShellFrame
     public void putStringUCase (String outText)
     {
         putString(outText.toUpperCase());
+    }
+
+    public void setBkColor (Color c)
+    {
+        mainTextArea.setBackground(c);
     }
 
     public ProgramStore getStore ()

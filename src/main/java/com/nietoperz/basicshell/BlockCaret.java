@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;

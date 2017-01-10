@@ -20,9 +20,9 @@
  * @author Ken Händel
  *
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
-import com.sixtyfour.resid.ISIDDefs.chip_model;
+import com.nietoperz.resid.ISIDDefs.chip_model;
 
 public class Voice {
 

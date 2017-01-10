@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import javax.swing.*;
 import javax.swing.text.DefaultCaret;
@@ -22,7 +22,7 @@ import static java.awt.datatransfer.DataFlavor.stringFlavor;
  * Subclassed JTextArea
  */
 @SuppressWarnings("unchecked")
-class ShellTextComponent extends JTextArea
+public class ShellTextComponent extends JTextArea
 {
     private final ShellFrame parent;
 

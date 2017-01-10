@@ -20,7 +20,7 @@
  * @author Ken Händel
  *
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
 public interface ISIDDefs {
 

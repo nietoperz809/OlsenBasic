@@ -20,11 +20,11 @@
  * @author Ken Händel
  *
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
-import com.sixtyfour.resid.ISIDDefs.chip_model;
+import com.nietoperz.resid.ISIDDefs.chip_model;
 
-import static com.sixtyfour.resid.SID.ANTTI_LANKILA_PATCH;
+import static com.nietoperz.resid.SID.ANTTI_LANKILA_PATCH;
 
 /**
  * The SID filter is modeled with a two-integrator-loop biquadratic filter,

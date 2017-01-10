@@ -1,4 +1,4 @@
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
 class Util
 {

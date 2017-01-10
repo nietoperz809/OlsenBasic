@@ -20,7 +20,7 @@
  * @author Ken Händel
  *
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
 /**
  * A 15 bit counter is used to implement the envelope rates, in effect dividing

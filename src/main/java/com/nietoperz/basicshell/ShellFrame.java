@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import com.sixtyfour.Basic;
 
@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
  * Created by Administrator on 1/3/2017.
  */
 @SuppressWarnings("InfiniteLoopStatement")
-public class ShellFrame
+class ShellFrame
 {
     static final ExecutorService executor = Executors.newFixedThreadPool(10);
     private final ArrayBlockingQueue<String> fromTextArea = new ArrayBlockingQueue<>(20);

@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import com.sixtyfour.plugins.InputProvider;
 

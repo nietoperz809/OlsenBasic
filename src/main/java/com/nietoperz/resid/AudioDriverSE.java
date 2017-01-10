@@ -6,7 +6,7 @@
  * http://www.dreamfabric.com/c64
  * ---------------------------------------------------
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
 import javax.sound.sampled.*;
 import java.util.Random;

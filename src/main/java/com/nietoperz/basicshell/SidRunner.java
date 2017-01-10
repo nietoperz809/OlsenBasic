@@ -1,8 +1,8 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
-import com.sixtyfour.resid.AudioDriverSE;
-import com.sixtyfour.resid.ISIDDefs;
-import com.sixtyfour.resid.SID;
+import com.nietoperz.resid.AudioDriverSE;
+import com.nietoperz.resid.ISIDDefs;
+import com.nietoperz.resid.SID;
 
 import java.util.concurrent.Callable;
 

@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import java.awt.*;
 import java.util.prefs.Preferences;

@@ -19,7 +19,7 @@
  *
  * @author Ken Händel
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
 /**
  * Class for plotting integers into an array.

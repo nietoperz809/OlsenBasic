@@ -20,11 +20,11 @@
  * @author Ken Händel
  *
  */
-package com.sixtyfour.resid;
+package com.nietoperz.resid;
 
-import com.sixtyfour.resid.ISIDDefs.chip_model;
+import com.nietoperz.resid.ISIDDefs.chip_model;
 
-import static com.sixtyfour.resid.SID.ANTTI_LANKILA_PATCH;
+import static com.nietoperz.resid.SID.ANTTI_LANKILA_PATCH;
 
 /**
  * A 24 bit accumulator is the basis for waveform generation. FREQ is added to

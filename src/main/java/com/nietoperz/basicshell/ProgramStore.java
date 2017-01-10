@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import java.util.stream.Stream;
 /**
  * Created by Administrator on 1/4/2017.
  */
-public class ProgramStore
+class ProgramStore
 {
     public static final String ERROR = "ERROR.\n";
     public static final String OK = "READY.\n";

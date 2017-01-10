@@ -1,4 +1,4 @@
-package com.sixtyfour.basicshell;
+package com.nietoperz.basicshell;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

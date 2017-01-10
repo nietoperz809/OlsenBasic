@@ -62,6 +62,7 @@ public class BasicRunner implements Runnable
     {
         if (running)
         {
+            System.out.println("already running ...");
             return;
         }
         Future f = ShellFrame.executor.submit(this);
@@ -95,18 +96,22 @@ public class BasicRunner implements Runnable
         running = true;
         try
         {
+            SidRunner.reset();
             SwingUtilities.invokeAndWait(() ->
                     shellFrame.runButton.setEnabled(false));
             olsenBasic.run();
+            //SidRunner.reset();
             SwingUtilities.invokeAndWait(() ->
                     shellFrame.runButton.setEnabled(true)
             );
-            SidRunner.reset();
         }
         catch (Exception ex)
         {
             ex.printStackTrace();
         }
-        running = false;
+        finally
+        {
+            running = false;
+        }
     }
 }

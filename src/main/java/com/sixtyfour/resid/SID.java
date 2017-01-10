@@ -254,8 +254,8 @@ public class SID
         voice[1].set_sync_source(voice[0]);
         voice[2].set_sync_source(voice[1]);
 
-        set_sampling_parameters(985248, sampling_method.SAMPLE_FAST, 44100, -1,
-                0.97);
+//        set_sampling_parameters(985248, sampling_method.SAMPLE_FAST, 44100, -1,
+//                0.97);
 
         bus_value = 0;
         bus_value_ttl = 0;
@@ -453,7 +453,6 @@ public class SID
             u *= temp * temp;
             sum += u;
         } while (u >= I0e * sum);
-
         return sum;
     }
 

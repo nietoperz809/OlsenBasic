@@ -296,7 +296,18 @@ public class ShellFrame
             }
         });
 
-        shellFrame.commandLoop();
+        while (true)
+        {
+            try
+            {
+                shellFrame.commandLoop();
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+                System.out.println("restarting cmd loop ...");
+            }
+        }
     }
 
     /**
@@ -323,56 +334,56 @@ public class ShellFrame
      */
     private void commandLoop ()
     {
-        while (true)
+        System.gc();
+        System.runFinalization();
+        System.out.println("cmdloop tick");
+
+        String s = getString();
+        String[] split = s.split(" ");
+        s = s.toLowerCase();
+        if (s.equals("list"))
         {
-            System.out.println("cmdloop tick");
-            String s = getString();
-            String[] split = s.split(" ");
-            s = s.toLowerCase();
-            if (s.equals("list"))
+            putString(store.toString());
+            putString(ProgramStore.OK);
+        }
+        else if (s.equals("new"))
+        {
+            store.clear();
+            putString(ProgramStore.OK);
+        }
+        else if (s.equals("cls"))
+        {
+            cls();
+        }
+        else if (s.equals("run"))
+        {
+            run(true);
+        }
+        else if (s.equals("dir"))
+        {
+            dir();
+            putString(ProgramStore.OK);
+        }
+        else if (split[0].toLowerCase().equals("save"))
+        {
+            String msg = store.save(split[1]);
+            putString(msg);
+        }
+        else if (split[0].toLowerCase().equals("load"))
+        {
+            String msg = store.load(split[1]);
+            putString(msg);
+        }
+        else
+        {
+            try
             {
-                putString(store.toString());
-                putString(ProgramStore.OK);
+                store.insert(s);
             }
-            else if (s.equals("new"))
+            catch (NumberFormatException unused)
             {
-                store.clear();
-                putString(ProgramStore.OK);
-            }
-            else if (s.equals("cls"))
-            {
-                cls();
-            }
-            else if (s.equals("run"))
-            {
-                run(true);
-            }
-            else if (s.equals("dir"))
-            {
-                dir();
-                putString(ProgramStore.OK);
-            }
-            else if (split[0].toLowerCase().equals("save"))
-            {
-                String msg = store.save(split[1]);
-                putString(msg);
-            }
-            else if (split[0].toLowerCase().equals("load"))
-            {
-                String msg = store.load(split[1]);
-                putString(msg);
-            }
-            else
-            {
-                try
-                {
-                    store.insert(s);
-                }
-                catch (NumberFormatException unused)
-                {
-                    //putString(ProgramStore.ERROR);
-                    putString(BasicRunner.runLine(s, this));
-                }
+                //putString(ProgramStore.ERROR);
+                putString(BasicRunner.runLine(s, this));
             }
         }
     }

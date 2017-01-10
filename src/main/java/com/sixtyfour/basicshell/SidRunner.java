@@ -26,7 +26,7 @@ public class SidRunner
         reset = true;
     }
 
-    private static void setupSID()
+    private static synchronized void setupSID()
     {
         sid = new SID();
         sid.set_sampling_parameters (CPUFrq,
@@ -35,18 +35,17 @@ public class SidRunner
                 -1,
                 0.97);
         sid.set_chip_model(ISIDDefs.chip_model.MOS8580);
+        for (int s=0; s<=0x1c; s++)
+            sid.write (s,0);
     }
     /**
      * Main function that inits and starts the SID
-     * @return false if SID is already running
      */
-    static boolean start()
+    static void start()
     {
-        if (sid != null)
-            return false;
-        setupSID();
         audioDriver = new AudioDriverSE();
         audioDriver.init(SAMPLE_RATE, 22000);
+        setupSID();
 
         ShellFrame.executor.submit(new Callable<Object>()
         {
@@ -87,7 +86,6 @@ public class SidRunner
             {
                 Thread.currentThread().setName("SIDRunner");
                 long cycles = 1;
-               // Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
                 while (true)
                 {
                     execute (cycles);
@@ -101,7 +99,6 @@ public class SidRunner
                 }
             }
         });
-        return true;
     }
 
     static synchronized int read (int reg)
@@ -113,7 +110,7 @@ public class SidRunner
     {
         sid.write(reg, val);
     }
-
+    
     private static synchronized void clock ()
     {
         sid.clock();

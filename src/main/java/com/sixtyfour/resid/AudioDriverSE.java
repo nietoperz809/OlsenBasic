@@ -9,6 +9,7 @@
 package com.sixtyfour.resid;
 
 import javax.sound.sampled.*;
+import java.util.Random;
 
 public class AudioDriverSE
 {
@@ -63,106 +64,63 @@ public class AudioDriverSE
 
     public void init (int sampleRate, int bufferSize)
     {
-//  Allocate Audio resources
         AudioFormat af = new AudioFormat(sampleRate,
                 16, 1, true, false);
-        DataLine.Info dli = new DataLine.Info(SourceDataLine.class, af, bufferSize);
+        DataLine.Info dli = new DataLine.Info(SourceDataLine.class, af);
         try
         {
             dataLine = (SourceDataLine) AudioSystem.getLine(dli);
-            if (dataLine == null)
-            {
-                System.out.println("DataLine: not existing...");
-            }
-            else
-            {
-                //System.out.println("DataLine allocated: " + dataLine);
-                dataLine.open(dataLine.getFormat(), bufferSize);
-                volume = (FloatControl)
-                        dataLine.getControl(FloatControl.Type.MASTER_GAIN);
-                setMasterVolume(100);
-                dataLine.start();
-            }
+            dataLine.open(af, bufferSize);
+            dataLine.start();
         }
         catch (Exception e)
         {
-            System.out.println("Problem while getting data line ");
             e.printStackTrace();
-            dataLine = null;
         }
     }
 
-// --Commented out by Inspection START (1/9/2017 7:19 AM):
-//    public void shutdown ()
-//    {
-//        dataLine.close();
-//    }
-// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
     public void write (byte[] buffer)
     {
         if (dataLine == null)
         {
+            System.out.println("no data line");
             return;
         }
         int bsize = buffer.length;
-            while (dataLine.available() < bsize)
+        while (dataLine.available() < bsize)
+        {
+            try
             {
-                Thread.yield();
+                Thread.sleep(1);
             }
-//        else if (dataLine.available() < bsize)
-//        {
-//            return;
-//        }
-//        if (!soundOn)
-//        {
-//            // Kill sound!!!
-//            for (int i = 0; i < buffer.length; i++)
-//            {
-//                buffer[i] = 0;
-//            }
-//        }
+            catch (InterruptedException ex)
+            {
+                ex.printStackTrace();
+            }
+        }
+        //System.out.println(Arrays.toString(buffer));
         dataLine.write(buffer, 0, bsize);
     }
 
-// --Commented out by Inspection START (1/9/2017 7:19 AM):
-//    public void setSoundOn (boolean on)
-//    {
-//        soundOn = on;
-//    }
-// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
 
-// --Commented out by Inspection START (1/9/2017 7:19 AM):
-//    public void setFullSpeed (boolean full)
-//    {
-//        fullSpeed = full;
-//    }
-// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
+    /**
+     * Test audio
+     * @param args
+     */
+    @SuppressWarnings("InfiniteLoopStatement")
+    public static void main (String[] args)
+    {
+        AudioDriverSE audioDriver = new AudioDriverSE();
+        audioDriver.init(44000, 22000);
+        audioDriver.setMasterVolume(100);
 
-// --Commented out by Inspection START (1/9/2017 7:19 AM):
-//    public boolean fullSpeed ()
-//    {
-//        return fullSpeed;
-//    }
-// --Commented out by Inspection STOP (1/9/2017 7:19 AM)
-
-//    /**
-//     * Test audio
-//     * @param args
-//     */
-//    @SuppressWarnings("InfiniteLoopStatement")
-//    public static void main (String[] args)
-//    {
-//        AudioDriverSE audioDriver = new AudioDriverSE();
-//        audioDriver.init(44000, 22000);
-//        audioDriver.setMasterVolume(100);
-//
-//        byte[] buff = new byte[256];
-//        Random rand = new Random();
-//        while (true)
-//        {
-//            rand.nextBytes(buff);
-//            audioDriver.write(buff);    // make some noise
-//        }
-//    }
+        byte[] buff = new byte[256];
+        Random rand = new Random();
+        while (true)
+        {
+            rand.nextBytes(buff);
+            audioDriver.write(buff);    // make some noise
+        }
+    }
 }

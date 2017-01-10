@@ -52,6 +52,19 @@ public class Basic
 
   private boolean running;
 
+  /**
+   * Sleeptime between Statements
+   */
+  private int fixedDelay = 0;
+
+  /**
+   * Set delay time or 0 if there's no need to wait
+   * @param f
+   */
+  public void setFixedDelay (int f)
+  {
+    fixedDelay = f;
+  }
 
   /**
    * Instantiates a new instance for a BASIC program. No interpretation/compilation will take place at this stage.
@@ -594,6 +607,18 @@ public class Basic
           {
             machine.getOutputChannel().systemPrintln(0, "\nBREAK IN " + num);
             break;
+          }
+
+          if (fixedDelay != 0)  // slow down if needed
+          {
+            try
+            {
+              Thread.sleep(fixedDelay);
+            }
+            catch (InterruptedException e)
+            {
+              e.printStackTrace();
+            }
           }
 
           while (paused)

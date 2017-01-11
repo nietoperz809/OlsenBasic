@@ -40,7 +40,7 @@ public class BasicRunner implements Runnable
      * @param sf reference to shell main window
      * @return textual representation of success/error
      */
-    public static String runLine (String in, ShellFrame sf)
+    public static String runSingleLine (String in, ShellFrame sf)
     {
         try
         {
@@ -54,7 +54,7 @@ public class BasicRunner implements Runnable
         }
         catch (Exception ex)
         {
-            return ProgramStore.ERROR;
+            return ex.getMessage().toUpperCase()+"\n";
         }
     }
 

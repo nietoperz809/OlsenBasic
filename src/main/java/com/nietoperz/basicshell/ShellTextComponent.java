@@ -102,7 +102,7 @@ public class ShellTextComponent extends JTextArea
                 }
                 else
                 {
-                    BasicRunner.runLine(s, parent);
+                    BasicRunner.runSingleLine(s, parent);
                 }
             }
             parent.putStringUCase("" + lines.length + " lines pasted\n" + ProgramStore.OK);

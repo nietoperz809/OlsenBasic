@@ -386,10 +386,10 @@ class ShellFrame
             {
                 store.insert(s);
             }
-            catch (NumberFormatException unused)
+            catch (Exception unused)
             {
                 //putString(ProgramStore.ERROR);
-                putString(BasicRunner.runLine(s, this));
+                putString(BasicRunner.runSingleLine(s, this));
             }
         }
     }

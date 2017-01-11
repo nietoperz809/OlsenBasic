@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Comparator;
+import java.util.Scanner;
 import java.util.TreeSet;
 import java.util.stream.Stream;
 
@@ -48,19 +49,14 @@ class ProgramStore
         }
     }
 
-    private int getLineNumber (String in) throws NumberFormatException
+    /**
+     * Get line number from the beginning
+     * @param in input string
+     * @return line number
+     */
+    private int getLineNumber (String in)
     {
-        StringBuilder buff = new StringBuilder();
-        for (int s = 0; s < in.length(); s++)
-        {
-            char c = in.charAt(s);
-            if (!Character.isDigit(c))
-            {
-                break;
-            }
-            buff.append(c);
-        }
-        return Integer.parseInt(buff.toString());
+        return new Scanner(in).useDelimiter("\\D").nextInt();
     }
 
     private void removeLine (int num)

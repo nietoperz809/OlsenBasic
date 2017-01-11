@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Dec.
  */
-public class Dec extends AbstractMnemonic
-{
+public class Dec extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new dec.

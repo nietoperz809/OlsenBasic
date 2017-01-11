@@ -1,6 +1,7 @@
 package com.nietoperz.basicshell;
 
 import com.sixtyfour.Basic;
+import com.sixtyfour.DelayTracer;
 
 import javax.swing.*;
 import java.util.concurrent.Future;
@@ -14,7 +15,7 @@ public class BasicRunner implements Runnable
     private Basic olsenBasic;
     private ShellFrame shellFrame;
 
-    public BasicRunner (String[] program, ShellFrame shellFrame)
+    public BasicRunner (String[] program, boolean slow, ShellFrame shellFrame)
     {
         if (running)
         {
@@ -22,7 +23,11 @@ public class BasicRunner implements Runnable
         }
         this.shellFrame = shellFrame;
         olsenBasic = new Basic(program);
-        //olsenBasic.setFixedDelay(1);
+        if (slow)
+        {
+            DelayTracer t = new DelayTracer(100);
+            olsenBasic.setTracer(t);
+        }
         olsenBasic.getMachine().setMemoryListener(new PeekPokeHandler(shellFrame));
         olsenBasic.setOutputChannel(new ShellOutputChannel(shellFrame));
         olsenBasic.setInputProvider(new ShellInputProvider(shellFrame));

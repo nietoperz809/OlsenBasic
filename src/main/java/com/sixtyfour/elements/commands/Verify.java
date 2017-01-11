@@ -8,8 +8,7 @@ import com.sixtyfour.util.VarUtils;
 /**
  * The VERIFY command.
  */
-public class Verify extends FileOperation
-{
+public class Verify extends FileOperation {
 
 	/**
 	 * Instantiates a new verify.

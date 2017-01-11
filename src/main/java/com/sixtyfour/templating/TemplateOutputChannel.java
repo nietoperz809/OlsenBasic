@@ -9,8 +9,7 @@ import com.sixtyfour.plugins.PrintConsumer;
  * 
  * @author EgonOlsen
  */
-public class TemplateOutputChannel implements OutputChannel
-{
+public class TemplateOutputChannel implements OutputChannel {
 
 	/** The cursor. */
 	private int cursor = 0;

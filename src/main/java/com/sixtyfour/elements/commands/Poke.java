@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * The POKE command.
  */
-public class Poke extends AbstractCommand
-{
+public class Poke extends AbstractCommand {
 
 	/** The pars. */
 	private List<Atom> pars;

@@ -20,6 +20,6 @@ public interface CpuTracer
    * @param newPc
    *          the position of the program counter after the execution
    */
-  void commandExecuted(Cpu cpu, int opcode, int opcodePc, int newPc);
+  void commandExecuted (Cpu cpu, int opcode, int opcodePc, int newPc);
 
 }

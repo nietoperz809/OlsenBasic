@@ -11,8 +11,7 @@ import java.util.Date;
  * 
  * @author EgonOlsen
  */
-public class Time extends Variable
-{
+public class Time extends Variable {
 
 	/**
 	 * Instantiates a new time.

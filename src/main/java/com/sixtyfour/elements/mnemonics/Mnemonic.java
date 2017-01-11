@@ -26,7 +26,7 @@ public interface Mnemonic {
 	 * @return the next free memory address after inserting the new opcode and
 	 *         its operands.
 	 */
-	int parse(String linePart, int addr, Machine machine, ConstantsContainer ccon, LabelsContainer lcon);
+	int parse (String linePart, int addr, Machine machine, ConstantsContainer ccon, LabelsContainer lcon);
 
 	/**
 	 * Returns true if the implementation can handle the given line's content.

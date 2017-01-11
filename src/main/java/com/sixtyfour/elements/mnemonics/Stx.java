@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Stx.
  */
-public class Stx extends AbstractMnemonic
-{
+public class Stx extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new stx.

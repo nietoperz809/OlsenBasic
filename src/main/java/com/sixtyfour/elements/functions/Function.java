@@ -48,7 +48,7 @@ public interface Function extends Atom {
 	 * @param term
 	 *            the new term
 	 */
-	void setTerm(Term term);
+	void setTerm (Term term);
 
 	/**
 	 * Parses a string as this function. If successful, 

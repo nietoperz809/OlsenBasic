@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class And.
  */
-public class And extends AbstractMnemonic
-{
+public class And extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new and.

@@ -5,8 +5,7 @@ import com.sixtyfour.plugins.SystemCallListener;
 /**
  * Default implementation that does nothing.
  */
-public class NullSystemCallListener implements SystemCallListener
-{
+public class NullSystemCallListener implements SystemCallListener {
 
 	/*
 	 * (non-Javadoc)

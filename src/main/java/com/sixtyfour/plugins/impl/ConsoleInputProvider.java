@@ -7,8 +7,7 @@ import java.util.Scanner;
 /**
  * A default implementation of an input provider that reads from the console.
  */
-public class ConsoleInputProvider implements InputProvider
-{
+public class ConsoleInputProvider implements InputProvider {
 
 	/** The scanner. */
 	private Scanner scanner = new Scanner(System.in);

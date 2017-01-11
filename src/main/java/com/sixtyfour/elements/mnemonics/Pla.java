@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Pla.
  */
-public class Pla extends AbstractMnemonic
-{
+public class Pla extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new pla.

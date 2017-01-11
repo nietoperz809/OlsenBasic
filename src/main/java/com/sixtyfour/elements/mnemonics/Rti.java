@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Rti.
  */
-public class Rti extends AbstractMnemonic
-{
+public class Rti extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new rti.

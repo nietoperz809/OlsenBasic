@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Cmp.
  */
-public class Cmp extends AbstractMnemonic
-{
+public class Cmp extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new cmp.

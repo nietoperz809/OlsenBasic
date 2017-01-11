@@ -6,8 +6,7 @@ import com.sixtyfour.system.Machine;
 /**
  * The STOP command.
  */
-public class Stop extends AbstractCommand
-{
+public class Stop extends AbstractCommand {
 
 	/**
 	 * Instantiates a new stop.

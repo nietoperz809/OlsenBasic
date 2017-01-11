@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Brk.
  */
-public class Brk extends AbstractMnemonic
-{
+public class Brk extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new brk.

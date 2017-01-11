@@ -17,8 +17,7 @@ import java.util.List;
 /**
  * The PRINT command.
  */
-public class Print extends AbstractCommand
-{
+public class Print extends AbstractCommand {
 
 	/** The parts. */
 	protected List<PrintPart> parts = new ArrayList<PrintPart>();

@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Dex.
  */
-public class Dex extends AbstractMnemonic
-{
+public class Dex extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new dex.

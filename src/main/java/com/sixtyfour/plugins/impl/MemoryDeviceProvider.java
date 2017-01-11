@@ -8,8 +8,7 @@ import java.util.*;
  * A simple implementation of a device provider that provides a virtual,
  * volatile disk in memory.
  */
-public class MemoryDeviceProvider implements DeviceProvider
-{
+public class MemoryDeviceProvider implements DeviceProvider {
 
 	/** The number 2 file. */
 	private Map<Integer, FileWrapper> number2File = new HashMap<Integer, FileWrapper>();

@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Sec.
  */
-public class Sec extends AbstractMnemonic
-{
+public class Sec extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new sec.

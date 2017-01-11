@@ -11,8 +11,7 @@ import com.sixtyfour.util.VarUtils;
 /**
  * The LOAD command.
  */
-public class Load extends FileOperation
-{
+public class Load extends FileOperation {
 
 	/**
 	 * Instantiates a new load.

@@ -12,8 +12,7 @@ import java.util.Map;
  * done here. All other SYS-calls will be redirect to an internal instance of
  * RamSystemCallListener.
  */
-public class StaticTemplateCallListener implements SystemCallListener
-{
+public class StaticTemplateCallListener implements SystemCallListener {
 
 	/** The parts. */
 	private Map<Integer, TemplatePart> parts;

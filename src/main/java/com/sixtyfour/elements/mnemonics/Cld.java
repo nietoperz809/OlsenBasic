@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Cld.
  */
-public class Cld extends AbstractMnemonic
-{
+public class Cld extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new cld.

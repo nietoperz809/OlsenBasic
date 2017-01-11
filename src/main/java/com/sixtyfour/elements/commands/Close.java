@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * The CLOSE command.
  */
-public class Close extends AbstractCommand
-{
+public class Close extends AbstractCommand {
 
 	/** The pars. */
 	private List<Atom> pars;

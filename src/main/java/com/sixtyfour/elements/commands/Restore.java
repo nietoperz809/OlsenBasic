@@ -6,8 +6,7 @@ import com.sixtyfour.system.Machine;
 /**
  * The Class Restore.
  */
-public class Restore extends AbstractCommand
-{
+public class Restore extends AbstractCommand {
 
 	/**
 	 * The RESTORE command.

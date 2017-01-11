@@ -4,8 +4,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Inc.
  */
-public class Inc extends AbstractMnemonic
-{
+public class Inc extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new inc.

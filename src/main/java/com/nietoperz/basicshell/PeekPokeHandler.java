@@ -7,6 +7,8 @@ import com.sixtyfour.plugins.impl.NullMemoryListener;
  */
 public class PeekPokeHandler extends NullMemoryListener
 {
+    public static final int SID_FIRST = 0xd400;
+    public static final int SID_LAST = 0xd41c;
     private ShellFrame shell;
 
     public PeekPokeHandler (ShellFrame f)
@@ -21,17 +23,19 @@ public class PeekPokeHandler extends NullMemoryListener
         {
             shell.setBkColor(C64Colors.get(value));
         }
-        else if (addr >= 0xd400 && addr <= 0xd41c)   // SID
+        else if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
         {
-            SidRunner.write(addr-0xd400, value);
+            //System.out.println("write "+addr+"/"+value);
+            SidRunner.write(addr-SID_FIRST, value);
         }
     }
 
     @Override
     public Integer peek (int addr)
     {
-        if (addr >= 0xd400 && addr <= 0xd41c)   // SID
+        if (addr >= SID_FIRST && addr <= SID_LAST)   // SID
         {
+            //System.out.println("read "+addr);
             return SidRunner.read(addr-0xd400);
         }
         return 0;

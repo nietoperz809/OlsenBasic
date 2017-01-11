@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Cpy.
  */
-public class Cpy extends AbstractMnemonic
-{
+public class Cpy extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new cpy.

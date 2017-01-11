@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Plp.
  */
-public class Plp extends AbstractMnemonic
-{
+public class Plp extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new plp.

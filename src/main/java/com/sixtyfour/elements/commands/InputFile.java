@@ -15,8 +15,7 @@ import java.util.List;
 /**
  * The INPUT# command.
  */
-public class InputFile extends Input
-{
+public class InputFile extends Input {
 
 	/** The file number. */
 	private Atom fileNumber = null;

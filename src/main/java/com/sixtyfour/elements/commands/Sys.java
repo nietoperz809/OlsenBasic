@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * The SYS command.
  */
-public class Sys extends AbstractCommand
-{
+public class Sys extends AbstractCommand {
 
 	/** The pars. */
 	private List<Atom> pars;

@@ -15,8 +15,7 @@ import java.util.List;
  * 
  * @author EgonOlsen
  */
-public abstract class MultiVariableCommand extends AbstractCommand
-{
+public abstract class MultiVariableCommand extends AbstractCommand {
 
 	/** The vars. */
 	protected List<Variable> vars = new ArrayList<Variable>();

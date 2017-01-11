@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Cpx.
  */
-public class Cpx extends AbstractMnemonic
-{
+public class Cpx extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new cpx.

@@ -8,8 +8,7 @@ import com.sixtyfour.util.VarUtils;
 /**
  * The SAVE command.
  */
-public class Save extends FileOperation
-{
+public class Save extends FileOperation {
 
 	/**
 	 * Instantiates a new save.

@@ -19,8 +19,7 @@ import java.util.List;
  * 
  * @author EgonOlsen
  */
-public class Assembler implements ProgramExecutor
-{
+public class Assembler implements ProgramExecutor {
 	private String[] code = null;
 	private int codeStart = -1;
 	private int start = 0;

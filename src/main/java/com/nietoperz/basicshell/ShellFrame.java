@@ -28,15 +28,16 @@ class ShellFrame
     private final ArrayBlockingQueue<String> toTextArea = new ArrayBlockingQueue<>(20);
     private final ProgramStore store = new ProgramStore();
     private final int[] lastStrLen = new int[2]; // Length of last output chunk
-    volatile JButton runButton;
     private volatile JTextArea mainTextArea;
     private JPanel mainPanel;
-    volatile JButton stopButton;
+    volatile JButton runButton;
+    private volatile JButton stopButton;
     private JButton clsButton;
     private JSlider fontSlider;
+    private JCheckBox speedCheckBox;
     private BasicRunner basicRunner = null;
-    private int rowNum;  // line number set by caret listener
-    private int colNum;   // column number "
+    private volatile int rowNum;  // line number set by caret listener
+    private volatile int colNum;   // column number "
     private JLabel caretLabel;
 
     /**
@@ -109,7 +110,7 @@ class ShellFrame
                     String s = toTextArea.take();
                     mainTextArea.append(s);
                     //mainTextArea.validate();
-                    if (rowNum > 4000 || colNum > 2000)
+                    while (rowNum > 4000 || colNum > 2000)
                     {
                         int end = mainTextArea.getLineEndOffset(0);
                         mainTextArea.getDocument().remove(0, end);
@@ -159,6 +160,9 @@ class ShellFrame
         runButton.setPreferredSize(new Dimension(82, 30));
         runButton.setText("RUN");
         bottomPanel.add(runButton);
+        speedCheckBox = new JCheckBox("slow");
+        speedCheckBox.setPreferredSize(new Dimension(60, 30));
+        bottomPanel.add (speedCheckBox);
         fontSlider = new JSlider();
         fontSlider.setPreferredSize(new Dimension(200, 30));
         bottomPanel.add(fontSlider);
@@ -196,7 +200,8 @@ class ShellFrame
 
     private void run (boolean sync)
     {
-        basicRunner = new BasicRunner(store.toArray(), this);
+        basicRunner = new BasicRunner(store.toArray(),
+                speedCheckBox.isSelected(),this);
         //mainTextArea.setEditable(false);
         //runButton.setEnabled(false);
         basicRunner.start(sync);
@@ -296,6 +301,7 @@ class ShellFrame
             }
         });
 
+        // CommandLoop
         while (true)
         {
             try

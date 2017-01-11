@@ -12,8 +12,7 @@ import java.util.List;
 /**
  * The CMD command.
  */
-public class Cmd extends AbstractCommand
-{
+public class Cmd extends AbstractCommand {
 
 	/** The file number. */
 	private Atom fileNumber = null;

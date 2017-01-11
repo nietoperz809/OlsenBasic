@@ -3,8 +3,7 @@ package com.sixtyfour.plugins;
 /**
  * A channel for outputting text.
  */
-public interface OutputChannel extends PrintConsumer
-{
+public interface OutputChannel extends PrintConsumer {
 
 	/**
 	 * Gets the cursor position.
@@ -29,7 +28,7 @@ public interface OutputChannel extends PrintConsumer
 	 * @param channel
 	 *            the channel
 	 */
-	void setPrintConsumer(PrintConsumer otherConsumer, int channel);
+	void setPrintConsumer (PrintConsumer otherConsumer, int channel);
 
 	/**
 	 * Gets the print consumer.

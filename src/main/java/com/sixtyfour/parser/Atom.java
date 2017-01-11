@@ -25,7 +25,7 @@ public interface Atom {
 	 * @return the result of the evaluation. This will be either null, an
 	 *         Integer, a Float or a String.
 	 */
-	Object eval(Machine machine);
+	Object eval (Machine machine);
 
 	/**
 	 * Returns true, if the Atom represents a Term and false otherwise.

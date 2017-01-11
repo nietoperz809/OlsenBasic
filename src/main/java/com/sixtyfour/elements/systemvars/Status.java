@@ -10,8 +10,7 @@ import com.sixtyfour.system.Machine;
  * A system variable that represents the current status. 
  * The current implementation always returns 128 for this.
  */
-public class Status extends Variable
-{
+public class Status extends Variable {
 
 	/**
 	 * Instantiates a new status.

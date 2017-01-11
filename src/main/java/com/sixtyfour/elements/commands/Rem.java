@@ -6,8 +6,7 @@ import com.sixtyfour.system.Machine;
 /**
  * The REM command.
  */
-public class Rem extends AbstractCommand
-{
+public class Rem extends AbstractCommand {
 
 	/** The Constant REM_MARKER. */
 	public final static String REM_MARKER = "###";

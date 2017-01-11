@@ -11,8 +11,7 @@ import java.util.Date;
  * 
  * @author EgonOlsen
  */
-public class TimeDate extends Variable
-{
+public class TimeDate extends Variable {
 
 	/** The sdf. */
 	private SimpleDateFormat sdf = new SimpleDateFormat("HHmmss");

@@ -6,8 +6,7 @@ import com.sixtyfour.system.Machine;
 /**
  * The CONT command.
  */
-public class Cont extends AbstractCommand
-{
+public class Cont extends AbstractCommand {
 
 	/**
 	 * Instantiates a new cont.

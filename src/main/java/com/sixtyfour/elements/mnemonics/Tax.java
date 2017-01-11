@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Tax.
  */
-public class Tax extends AbstractMnemonic
-{
+public class Tax extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new tax.

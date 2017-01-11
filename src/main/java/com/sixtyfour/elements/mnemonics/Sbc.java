@@ -3,8 +3,7 @@ package com.sixtyfour.elements.mnemonics;
 /**
  * The Class Sbc.
  */
-public class Sbc extends AbstractMnemonic
-{
+public class Sbc extends AbstractMnemonic {
 	
 	/**
    * Instantiates a new sbc.

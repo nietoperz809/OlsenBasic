@@ -9,8 +9,7 @@ import com.sixtyfour.util.VarUtils;
 /**
  * An abstract, common base class for commands.
  */
-public abstract class AbstractCommand implements Command
-{
+public abstract class AbstractCommand implements Command {
 
 	/** The name. */
 	protected String name;

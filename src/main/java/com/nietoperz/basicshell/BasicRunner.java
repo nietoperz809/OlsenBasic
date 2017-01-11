@@ -10,7 +10,7 @@ import java.util.concurrent.Future;
  */
 public class BasicRunner implements Runnable
 {
-    private static boolean running = false;
+    private static volatile boolean running = false;
     private Basic olsenBasic;
     private ShellFrame shellFrame;
 

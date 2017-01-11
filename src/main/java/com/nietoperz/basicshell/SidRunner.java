@@ -19,7 +19,7 @@ public class SidRunner
     private static final int BUFFER_SIZE = 256;
     private static final byte[] buffer = new byte[BUFFER_SIZE * 2];
     private static int pos = 0;
-    private static boolean reset = false;
+    private static volatile boolean reset = false;
 
     public static void reset()
     {

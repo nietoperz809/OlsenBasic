@@ -28,10 +28,10 @@ class ShellFrame
     private final ArrayBlockingQueue<String> toTextArea = new ArrayBlockingQueue<>(20);
     private final ProgramStore store = new ProgramStore();
     private final int[] lastStrLen = new int[2]; // Length of last output chunk
-    JButton runButton;
-    private JTextArea mainTextArea;
+    volatile JButton runButton;
+    private volatile JTextArea mainTextArea;
     private JPanel mainPanel;
-    private JButton stopButton;
+    volatile JButton stopButton;
     private JButton clsButton;
     private JSlider fontSlider;
     private BasicRunner basicRunner = null;

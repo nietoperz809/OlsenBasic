@@ -159,7 +159,9 @@ class ProgramStore
         @Override
         public int compare (String s1, String s2)
         {
-            return getLineNumber(s1) - getLineNumber(s2);
+            int ret = getLineNumber(s1) - getLineNumber(s2);
+            //System.out.println(s1+"-"+s2+"="+ret);
+            return ret;
         }
     }
 }

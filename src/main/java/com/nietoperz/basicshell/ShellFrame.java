@@ -357,6 +357,16 @@ class ShellFrame
             store.clear();
             putString(ProgramStore.OK);
         }
+        else if (s.equals ("prettify"))
+        {
+            new Prettifier(store).doPrettify();
+            putString(ProgramStore.OK);
+        }
+        else if (s.equals ("renumber"))
+        {
+            new Prettifier(store).doRenumber();
+            putString(ProgramStore.OK);
+        }
         else if (s.equals("cls"))
         {
             cls();

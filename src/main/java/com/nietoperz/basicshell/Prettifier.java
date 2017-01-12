@@ -44,10 +44,34 @@ public class Prettifier
         StringList list = new StringList();
         StringBuilder sb = new StringBuilder();
         char lastc = 0;
+        boolean inquote = false;
 
         for (int s=0; s<in.length(); s++)
         {
             char c = in.charAt(s);
+            if (c == '\"')
+            {
+                if (!inquote)
+                {
+                    list.add (sb.toString());
+                    sb.setLength(0);
+                    inquote = true;
+                    sb.append(c);
+                }
+                else
+                {
+                    sb.append(c);
+                    list.add (sb.toString());
+                    sb.setLength(0);
+                    inquote = false;
+                }
+                continue;
+            }
+            if (inquote)
+            {
+                sb.append(c);
+                continue;
+            }
             if (lastc == 0)
             {
 

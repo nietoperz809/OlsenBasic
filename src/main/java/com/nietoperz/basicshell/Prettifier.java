@@ -84,6 +84,13 @@ public class Prettifier
 
         for (int s=0; s<in.length(); s++)
         {
+            if (sb.toString().startsWith("REM")) // check REM line
+            {
+                sb.append (' ');
+                sb.append(in.substring(s, in.length()));
+                list.add (sb.toString());
+                return list;
+            }
             char charPresent = in.charAt(s);
             if (charPresent == '\"')
             {

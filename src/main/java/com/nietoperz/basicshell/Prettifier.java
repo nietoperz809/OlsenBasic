@@ -98,17 +98,16 @@ public class Prettifier
             }
             else if (Character.isLetter(charBefore))
             {
-                if (!Character.isLetter(charPresent))
+                if (!Character.isLetter(charPresent) &&
+                        !Character.isDigit(charPresent) &&
+                        charPresent != '$' && charPresent != '%')
                 {
                     switchToNextToken();
                 }
             }
             else
             {
-                if (Character.isDigit(charPresent) || Character.isLetter(charPresent))
-                {
-                    switchToNextToken();
-                }
+                switchToNextToken();
             }
             sb.append(charPresent);
             charBefore = charPresent;
@@ -125,8 +124,9 @@ public class Prettifier
     private String concat (StringList arr)
     {
         StringBuilder sb = new StringBuilder();
-        for (String s : arr)
+        for (int n = 0; n<arr.size(); n++)
         {
+            String s = arr.get(n);
             sb.append(s).append(' ');
         }
         return sb.toString().trim();

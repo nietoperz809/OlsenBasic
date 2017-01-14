@@ -34,6 +34,30 @@ public class Prettifier
             s = s.trim();
             return s.isEmpty() || super.add(s);
         }
+
+        @Override
+        public String toString ()
+        {
+            StringBuilder sb = new StringBuilder();
+            for (int n=0; n<this.size(); n++)
+            {
+                String s = this.get(n);
+                if (Keywords.isKeyWord(s) || s.equals(":")
+                        || s.equals("="))
+                {
+                    sb.append(' ');
+                    sb.append(s);
+                    sb.append(' ');
+                }
+                else
+                    sb.append(s);
+                if (n==0)  // space after line num
+                {
+                    sb.append(' ');
+                }
+            }
+            return sb.toString().replace("  "," ");
+        }
     }
 
     /**
@@ -91,7 +115,8 @@ public class Prettifier
             }
             else if (Character.isDigit(charBefore))
             {
-                if (!Character.isDigit(charPresent))
+                if (!Character.isDigit(charPresent) &&
+                        charPresent != '$' && charPresent != '%')
                 {
                     switchToNextToken();
                 }
@@ -99,7 +124,7 @@ public class Prettifier
             else if (Character.isLetter(charBefore))
             {
                 if (!Character.isLetter(charPresent) &&
-                        !Character.isDigit(charPresent) &&
+                        !(Character.isDigit(charPresent) && sb.length()==1) &&
                         charPresent != '$' && charPresent != '%')
                 {
                     switchToNextToken();
@@ -116,21 +141,6 @@ public class Prettifier
         return list;
     }
 
-    /**
-     * Stick stringlist together ...
-     * @param arr input list
-     * @return all put together
-     */
-    private String concat (StringList arr)
-    {
-        StringBuilder sb = new StringBuilder();
-        for (int n = 0; n<arr.size(); n++)
-        {
-            String s = arr.get(n);
-            sb.append(s).append(' ');
-        }
-        return sb.toString().trim();
-    }
 
     /**
      * Adjust jump target
@@ -184,7 +194,7 @@ public class Prettifier
             theMap.put(sl.get(0), ""+start);
             sl.set(0, ""+start);
             start += stepWidth;
-            theStore.insert(concat(sl));
+            theStore.insert(sl.toString());
         }
         // Pass #2: adjust goto, etc
         prog = theStore.toArray();
@@ -195,7 +205,7 @@ public class Prettifier
             adjust(sl,"goto");
             adjust(sl,"gosub");
             adjust(sl,"then");
-            String s = concat(sl);
+            String s = sl.toString();
             theStore.insert(s);
         }
     }
@@ -205,7 +215,7 @@ public class Prettifier
         String[] prog = theStore.toArray();
         for (String line : prog)
         {
-            String s = concat(tokenize(line));
+            String s = tokenize(line).toString();
             theStore.insert(s);
         }
     }
